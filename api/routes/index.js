@@ -9,7 +9,7 @@ function router(app) {
     }),
   )
   .get('/', (_, res) => {
-    res.json('Pastelaria La Nelli');
+    res.json('La Nelli API');
   });
 }
 
