@@ -131,3 +131,6 @@ dist
 
 # eslint config
 .eslintrc.js
+
+# dump
+la_nelli_bkp.sql
