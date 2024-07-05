@@ -6,6 +6,9 @@ const StatusPedidos = sequelize.define('status_pedidos', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: false,
+  freezeTableName: true,
 });
 
 export default StatusPedidos;
