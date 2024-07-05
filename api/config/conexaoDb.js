@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize({
   database: process.env.DATABASE,
@@ -12,8 +12,10 @@ const sequelize = new Sequelize({
 
 try {
   sequelize.authenticate();
+  // eslint-disable-next-line no-console
   console.log('Conexão com o banco de dados estabelecida com exito');
 } catch (error) {
+  // eslint-disable-next-line no-console
   console.log('Erro ao conectar com o banco de dados');
 }
 
