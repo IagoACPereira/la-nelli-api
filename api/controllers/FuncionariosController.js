@@ -1,3 +1,5 @@
+import Funcionarios from '../models/Funcionarios.js';
+
 class FuncionariosController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,9 @@ class FuncionariosController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const funcionarios = await Funcionarios.findAll();
+
+      res.status(200).json(funcionarios);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
