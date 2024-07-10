@@ -1,3 +1,5 @@
+import CargosFuncionarios from '../models/CargosFuncionarios.js';
+
 class CargosFuncionariosController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,8 @@ class CargosFuncionariosController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const cargosFuncionarios = await CargosFuncionarios.findAll();
+      res.status(200).json(cargosFuncionarios);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
