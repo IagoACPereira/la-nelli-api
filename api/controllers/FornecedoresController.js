@@ -1,3 +1,5 @@
+import Fornecedores from '../models/Fornecedores.js';
+
 class FornecedoresController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,9 @@ class FornecedoresController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const fornecedores = await Fornecedores.findAll();
+
+      res.status(200).json(fornecedores);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
