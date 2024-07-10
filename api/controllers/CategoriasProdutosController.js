@@ -1,3 +1,5 @@
+import CategoriasProdutos from '../models/CategoriasProdutos.js';
+
 class CategoriasProdutosController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,9 @@ class CategoriasProdutosController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const categoriasProdutos = await CategoriasProdutos.findAll();
+
+      res.status(200).json(categoriasProdutos);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
