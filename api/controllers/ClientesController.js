@@ -26,8 +26,13 @@ class ClientesController {
   }
 
   static async exibirUm(req, res) {
+    const { id } = req.params;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const cliente = await Clientes.findOne({
+        where: { id },
+      });
+
+      res.status(200).json(cliente);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
