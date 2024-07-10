@@ -1,3 +1,5 @@
+import Clientes from '../models/Clientes.js';
+
 class ClientesController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,9 @@ class ClientesController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const clientes = await Clientes.findAll();
+
+      res.status(200).json(clientes);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
