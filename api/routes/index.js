@@ -19,10 +19,11 @@ function router(app) {
         extended: true,
       }),
     )
-    .get('/', (_, res) => {
+    .get('/api/', (_, res) => {
       res.json('La Nelli API');
     })
     .use(
+      '/api/',
       statusPedidos,
       clientes,
       cargosFuncionarios,
