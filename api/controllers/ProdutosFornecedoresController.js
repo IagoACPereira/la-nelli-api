@@ -26,8 +26,12 @@ class ProdutosFornecedoresController {
   }
 
   static async exibirUm(req, res) {
+    const { id } = req.params;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const produtoFornecedor = await ProdutosFornecedores.findOne({
+        where: { id },
+      });
+      res.status(200).json(produtoFornecedor);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
