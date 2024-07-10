@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import CargosFuncionariosController from '../controllers/CargosFincionariosController.js';
+import CargosFuncionariosController from '../controllers/CargosFuncionariosController.js';
 
 const cargosFuncionariosRouter = Router();
 
