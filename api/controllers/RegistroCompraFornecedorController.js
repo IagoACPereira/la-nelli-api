@@ -1,3 +1,5 @@
+import RegistroCompraFornecedor from '../models/RegistroCompraFornecedor.js';
+
 class RegistroCompraFornecedorController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,8 @@ class RegistroCompraFornecedorController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const registrosCompras = await RegistroCompraFornecedor.findAll();
+      res.status(200).json(registrosCompras);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
