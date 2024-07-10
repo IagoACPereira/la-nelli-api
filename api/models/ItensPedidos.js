@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/conexaoDb.js';
 import Pedidos from './Pedidos.js';
-import Produtos from './Produtos.js';
 
 const ItensPedidos = sequelize.define('itens_pedidos', {
   quantidade: {
@@ -13,16 +12,16 @@ const ItensPedidos = sequelize.define('itens_pedidos', {
   freezeTableName: true,
 });
 
-ItensPedidos.hasMany(Pedidos, {
+Pedidos.hasMany(ItensPedidos, {
   foreignKey: 'id_pedido',
 });
-Pedidos.belongsTo(ItensPedidos, {
+ItensPedidos.belongsTo(Pedidos, {
   foreignKey: 'id_pedido',
 });
-ItensPedidos.hasMany(Produtos, {
+ItensPedidos.hasMany(ItensPedidos, {
   foreignKey: 'id_produto',
 });
-Produtos.belongsTo(ItensPedidos, {
+ItensPedidos.belongsTo(ItensPedidos, {
   foreignKey: 'id_produto',
 });
 

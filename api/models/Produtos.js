@@ -24,10 +24,10 @@ const Produtos = sequelize.define('produtos', {
   freezeTableName: true,
 });
 
-Produtos.hasMany(CategoriasProdutos, {
+CategoriasProdutos.hasMany(Produtos, {
   foreignKey: 'id_categoria',
 });
-CategoriasProdutos.belongsTo(Produtos, {
+Produtos.belongsTo(CategoriasProdutos, {
   foreignKey: 'id_categoria',
 });
 

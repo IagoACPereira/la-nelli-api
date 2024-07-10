@@ -7,7 +7,7 @@ const sequelize = new Sequelize({
   password: process.env.SENHADB,
   host: process.env.HOSTDB,
   dialect: 'postgres',
-  logging: false,
+  // logging: false,
 });
 
 try {

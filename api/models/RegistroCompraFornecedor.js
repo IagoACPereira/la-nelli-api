@@ -18,22 +18,22 @@ const RegistroCompraFornecedor = sequelize.define('registro_compra_fornecedor', 
   freezeTableName: true,
 });
 
-RegistroCompraFornecedor.hasMany(Funcionarios, {
+Funcionarios.hasMany(RegistroCompraFornecedor, {
   foreignKey: 'id_funcionario',
 });
-Funcionarios.belongsTo(RegistroCompraFornecedor, {
+RegistroCompraFornecedor.belongsTo(Funcionarios, {
   foreignKey: 'id_funcionario',
 });
-RegistroCompraFornecedor.hasMany(Produtos, {
+Produtos.hasMany(RegistroCompraFornecedor, {
   foreignKey: 'id_produto',
 });
-Produtos.belongsTo(RegistroCompraFornecedor, {
+RegistroCompraFornecedor.belongsTo(Produtos, {
   foreignKey: 'id_produto',
 });
-RegistroCompraFornecedor.hasMany(Fornecedores, {
+Fornecedores.hasMany(RegistroCompraFornecedor, {
   foreignKey: 'id_fornecedor',
 });
-Fornecedores.belongsTo(RegistroCompraFornecedor, {
+RegistroCompraFornecedor.belongsTo(Fornecedores, {
   foreignKey: 'id_fornecedor',
 });
 

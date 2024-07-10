@@ -17,16 +17,16 @@ const Pedidos = sequelize.define('pedidos_vendas', {
   freezeTableName: true,
 });
 
-Pedidos.hasMany(Clientes, {
+Clientes.hasMany(Pedidos, {
   foreignKey: 'id_cliente',
 });
-Clientes.belongsTo(Pedidos, {
+Pedidos.belongsTo(Clientes, {
   foreignKey: 'id_cliente',
 });
-Pedidos.hasMany(StatusPedidos, {
+StatusPedidos.hasMany(Pedidos, {
   foreignKey: 'id_status',
 });
-StatusPedidos.belongsTo(Pedidos, {
+Pedidos.belongsTo(StatusPedidos, {
   foreignKey: 'id_status',
 });
 

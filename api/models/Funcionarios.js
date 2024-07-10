@@ -28,10 +28,10 @@ const Funcionarios = sequelize.define('funcionarios', {
   freezeTableName: true,
 });
 
-Funcionarios.hasMany(CargosFuncionarios, {
+CargosFuncionarios.hasMany(Funcionarios, {
   foreignKey: 'id_cargo',
 });
-CargosFuncionarios.belongsTo(Funcionarios, {
+Funcionarios.belongsTo(CargosFuncionarios, {
   foreignKey: 'id_cargo',
 });
 

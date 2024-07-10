@@ -2,21 +2,21 @@ import sequelize from '../config/conexaoDb.js';
 import Fornecedores from './Fornecedores.js';
 import Produtos from './Produtos.js';
 
-const ProdutosFornecedores = sequelize.define('itens_pedidos', {}, {
+const ProdutosFornecedores = sequelize.define('produtos_fornecedores', {}, {
   timestamps: false,
   freezeTableName: true,
 });
 
-ProdutosFornecedores.hasMany(Fornecedores, {
+Fornecedores.hasMany(ProdutosFornecedores, {
   foreignKey: 'id_fornecedor',
 });
-Fornecedores.belongsTo(ProdutosFornecedores, {
+ProdutosFornecedores.belongsTo(Fornecedores, {
   foreignKey: 'id_fornecedor',
 });
-ProdutosFornecedores.hasMany(Produtos, {
+Produtos.hasMany(ProdutosFornecedores, {
   foreignKey: 'id_produto',
 });
-Produtos.belongsTo(ProdutosFornecedores, {
+ProdutosFornecedores.belongsTo(Produtos, {
   foreignKey: 'id_produto',
 });
 
