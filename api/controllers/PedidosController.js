@@ -25,8 +25,13 @@ class PedidosController {
   }
 
   static async exibirUm(req, res) {
+    const { id } = req.params;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const pedido = await Pedidos.findOne({
+        where: { id },
+      });
+
+      res.status(200).json(pedido);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
