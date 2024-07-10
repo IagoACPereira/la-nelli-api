@@ -1,3 +1,5 @@
+import StatusPedidos from '../models/StatusPedidos.js';
+
 class StatusPedidosController {
   static async adicionar(req, res) {
     try {
@@ -12,7 +14,9 @@ class StatusPedidosController {
 
   static async exibirTodos(req, res) {
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      const statusPedidos = await StatusPedidos.findAll();
+
+      res.status(200).json(statusPedidos);
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
