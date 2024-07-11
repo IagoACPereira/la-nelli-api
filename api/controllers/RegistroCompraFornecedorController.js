@@ -2,8 +2,27 @@ import RegistroCompraFornecedor from '../models/RegistroCompraFornecedor.js';
 
 class RegistroCompraFornecedorController {
   static async adicionar(req, res) {
+    const {
+      quantidade,
+      custo,
+      idFuncionario,
+      idProduto,
+      idFornecedor,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novaCompra = await RegistroCompraFornecedor.create({
+        quantidade,
+        custo,
+        id_funcionario: idFuncionario,
+        id_produto: idProduto,
+        id_fornecedor: idFornecedor,
+      });
+
+      res.status(201).json({
+        mensagem: 'Nova compra com fornecedor registrada com sucesso',
+        dados: novaCompra,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
