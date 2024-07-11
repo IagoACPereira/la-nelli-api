@@ -2,8 +2,14 @@ import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class CategoriasProdutosController {
   static async adicionar(req, res) {
+    const { categoria } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novaCategoria = await CategoriasProdutos.create({ categoria });
+      res.status(201).json({
+        mensagem: 'Nova categoria adicionada com sucesso',
+        dados: novaCategoria,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
