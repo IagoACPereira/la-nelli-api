@@ -2,8 +2,24 @@ import Fornecedores from '../models/Fornecedores.js';
 
 class FornecedoresController {
   static async adicionar(req, res) {
+    const {
+      nome,
+      telefone,
+      email,
+      endereco,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoFornecedor = await Fornecedores.create({
+        nome,
+        telefone,
+        email,
+        endereco,
+      });
+      res.status(201).json({
+        mensagem: 'Novo fornecedor adicionado com sucesso',
+        dados: novoFornecedor,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
