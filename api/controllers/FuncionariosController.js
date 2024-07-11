@@ -2,8 +2,29 @@ import Funcionarios from '../models/Funcionarios.js';
 
 class FuncionariosController {
   static async adicionar(req, res) {
+    const {
+      nome,
+      telefone,
+      email,
+      salario,
+      dataContratacao,
+      idCargo,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoFuncionario = await Funcionarios.create({
+        nome,
+        telefone,
+        email,
+        salario,
+        data_contratacao: dataContratacao,
+        id_cargo: idCargo,
+      });
+
+      res.status(201).json({
+        mensagem: 'Novo funcionaria adicionado com sucesso',
+        dados: novoFuncionario,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
