@@ -2,8 +2,15 @@ import CargosFuncionarios from '../models/CargosFuncionarios.js';
 
 class CargosFuncionariosController {
   static async adicionar(req, res) {
+    const { cargo } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoCargo = await CargosFuncionarios.create({ cargo });
+
+      res.status(201).json({
+        mensagem: 'Novo cargo adicionado com sucesso',
+        dados: novoCargo,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
