@@ -2,8 +2,21 @@ import ProdutosFornecedores from '../models/ProdutosFornecedores.js';
 
 class ProdutosFornecedoresController {
   static async adicionar(req, res) {
+    const {
+      idFornecedor,
+      idProduto,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoProduto = await ProdutosFornecedores.create({
+        id_fornecedor: idFornecedor,
+        id_produto: idProduto,
+      });
+
+      res.status(201).json({
+        mensagem: 'Produto associado ao um fornecedor com sucesso',
+        dados: novoProduto,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
