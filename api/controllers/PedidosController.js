@@ -2,8 +2,23 @@ import Pedidos from '../models/Pedidos.js';
 
 class PedidosController {
   static async adicionar(req, res) {
+    const {
+      dataPedido,
+      total,
+      idCliente,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoPedido = await Pedidos.create({
+        data_pedido: dataPedido,
+        total,
+        id_cliente: idCliente,
+        id_status: 1,
+      });
+      res.status(201).json({
+        mensagem: 'Novo pedido adicionado com sucesso',
+        dados: novoPedido,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
