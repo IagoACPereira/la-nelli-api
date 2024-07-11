@@ -54,8 +54,23 @@ class ProdutosFornecedoresController {
   }
 
   static async atualizar(req, res) {
+    const { id } = req.params;
+    const {
+      idFornecedor,
+      idProduto,
+    } = req.body;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      await ProdutosFornecedores.update({
+        id_fornecedor: idFornecedor,
+        id_produto: idProduto,
+      }, {
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Produto atualizado com sucesso',
+        status: 200,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,

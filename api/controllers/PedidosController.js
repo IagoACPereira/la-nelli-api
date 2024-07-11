@@ -56,8 +56,27 @@ class PedidosController {
   }
 
   static async atualizar(req, res) {
+    const { id } = req.params;
+    const {
+      dataPedido,
+      total,
+      idCliente,
+      idStatus,
+    } = req.body;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      await Pedidos.update({
+        data_pedido: dataPedido,
+        total,
+        id_cliente: idCliente,
+        id_status: idStatus,
+      }, {
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Pedido atualizado com sucesso',
+        status: 200,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,

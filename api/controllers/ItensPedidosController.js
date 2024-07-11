@@ -56,8 +56,25 @@ class ItensPedidosController {
   }
 
   static async atualizar(req, res) {
+    const { id } = req.params;
+    const {
+      quantidade,
+      idPedido,
+      idProduto,
+    } = req.body;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      await ItensPedidos.update({
+        quantidade,
+        id_pedido: idPedido,
+        id_produto: idProduto,
+      }, {
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Item atualizado com sucesso',
+        status: 200,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,

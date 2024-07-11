@@ -60,8 +60,29 @@ class RegistroCompraFornecedorController {
   }
 
   static async atualizar(req, res) {
+    const { id } = req.params;
+    const {
+      quantidade,
+      custo,
+      idFuncionario,
+      idProduto,
+      idFornecedor,
+    } = req.body;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      await RegistroCompraFornecedor.update({
+        quantidade,
+        custo,
+        id_funcionario: idFuncionario,
+        id_produto: idProduto,
+        id_fornecedor: idFornecedor,
+      }, {
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Registro de compra atualizado com sucesso',
+        status: 200,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
