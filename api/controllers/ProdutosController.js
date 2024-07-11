@@ -2,8 +2,27 @@ import Produtos from '../models/Produtos.js';
 
 class ProdutosController {
   static async adicionar(req, res) {
+    const {
+      nome,
+      descricao,
+      preco,
+      qtdEstoque,
+      idCategoria,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoProduto = await Produtos.create({
+        nome,
+        descricao,
+        preco,
+        qtd_estoque: qtdEstoque,
+        id_categoria: idCategoria,
+      });
+
+      res.status(201).json({
+        mensagem: 'Novo produto adicionado com sucesso',
+        dados: novoProduto,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
