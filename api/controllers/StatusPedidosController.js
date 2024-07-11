@@ -2,8 +2,14 @@ import StatusPedidos from '../models/StatusPedidos.js';
 
 class StatusPedidosController {
   static async adicionar(req, res) {
+    const { status } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoStatus = await StatusPedidos.create({ status });
+      res.status(201).json({
+        mensagem: 'Novo status adicionado com sucesso',
+        dados: novoStatus,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
