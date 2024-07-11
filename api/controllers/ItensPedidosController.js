@@ -2,8 +2,22 @@ import ItensPedidos from '../models/ItensPedidos.js';
 
 class ItensPedidosController {
   static async adicionar(req, res) {
+    const {
+      quantidade,
+      idPedido,
+      idProduto,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoItem = await ItensPedidos.create({
+        quantidade,
+        id_pedido: idPedido,
+        id_produto: idProduto,
+      });
+      res.status(201).json({
+        mensagem: 'Novo item adicionado com sucesso',
+        dados: novoItem,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
