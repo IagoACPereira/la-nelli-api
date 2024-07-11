@@ -2,8 +2,25 @@ import Clientes from '../models/Clientes.js';
 
 class ClientesController {
   static async adicionar(req, res) {
+    const {
+      nome,
+      telefone,
+      email,
+      endereco,
+    } = req.body;
     try {
-      res.status(201).json('Em Desenvolvimento.');
+      const novoCliente = await Clientes.create({
+        nome,
+        telefone,
+        email,
+        endereco,
+      });
+
+      res.status(201).json({
+        mensagem: 'Novo cliente adicionado com sucesso',
+        dados: novoCliente,
+        status: 201,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
