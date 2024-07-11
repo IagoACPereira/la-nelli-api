@@ -92,8 +92,16 @@ class RegistroCompraFornecedorController {
   }
 
   static async deletar(req, res) {
+    const { id } = req.params;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      await RegistroCompraFornecedor.destroy({
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Registro de compra deletado com sucesso',
+        status: 200,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,

@@ -68,8 +68,16 @@ class CargosFuncionariosController {
   }
 
   static async deletar(req, res) {
+    const { id } = req.params;
     try {
-      res.status(200).json('Em Desenvolvimento.');
+      await CargosFuncionarios.destroy({
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Cargo deletado com sucesso',
+        status: 200,
+      });
     } catch (error) {
       res.status(400).json({
         mensagem: error.message,
