@@ -5,16 +5,18 @@ class ProdutosController {
     const {
       nome,
       descricao,
-      preco,
       qtdEstoque,
+      precoVenda,
+      precoCompra,
       idCategoria,
     } = req.body;
     try {
       const novoProduto = await Produtos.create({
         nome,
         descricao,
-        preco,
         qtd_estoque: qtdEstoque,
+        preco_venda: precoVenda,
+        preco_compra: precoCompra,
         id_categoria: idCategoria,
       });
 
@@ -65,16 +67,18 @@ class ProdutosController {
     const {
       nome,
       descricao,
-      preco,
       qtdEstoque,
+      precoVenda,
+      precoCompra,
       idCategoria,
     } = req.body;
     try {
       await Produtos.update({
         nome,
         descricao,
-        preco,
         qtd_estoque: qtdEstoque,
+        preco_venda: precoVenda,
+        preco_compra: precoCompra,
         id_categoria: idCategoria,
       }, {
         where: { id },
