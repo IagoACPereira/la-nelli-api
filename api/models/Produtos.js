@@ -19,6 +19,14 @@ const Produtos = sequelize.define('produtos', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  preco_venda: {
+    type: DataTypes.NUMBER,
+    allowNull: false,
+  },
+  preco_compra: {
+    type: DataTypes.NUMBER,
+    allowNull: false,
+  },
 }, {
   timestamps: false,
   freezeTableName: true,
