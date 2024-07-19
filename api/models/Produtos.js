@@ -11,10 +11,6 @@ const Produtos = sequelize.define('produtos', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  preco: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
-  },
   qtd_estoque: {
     type: DataTypes.INTEGER,
     allowNull: false,
