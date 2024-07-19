@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import RegistroCompraFornecedor from '../models/RegistroCompraFornecedor.js';
 
 class RegistroCompraFornecedorController {
@@ -9,7 +10,11 @@ class RegistroCompraFornecedorController {
       idProduto,
       idFornecedor,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novaCompra = await RegistroCompraFornecedor.create({
         quantidade,
         custo,
@@ -24,11 +29,17 @@ class RegistroCompraFornecedorController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
-    }
+    } return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -68,7 +79,11 @@ class RegistroCompraFornecedorController {
       idProduto,
       idFornecedor,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await RegistroCompraFornecedor.update({
         quantidade,
         custo,
@@ -84,11 +99,17 @@ class RegistroCompraFornecedorController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
-    }
+    } return 0;
   }
 
   static async deletar(req, res) {

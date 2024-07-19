@@ -1,9 +1,15 @@
+import { validationResult } from 'express-validator';
 import StatusPedidos from '../models/StatusPedidos.js';
 
 class StatusPedidosController {
   static async adicionar(req, res) {
     const { status } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
+
       const novoStatus = await StatusPedidos.create({ status });
       res.status(201).json({
         mensagem: 'Novo status adicionado com sucesso',
@@ -11,11 +17,18 @@ class StatusPedidosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -50,7 +63,12 @@ class StatusPedidosController {
   static async atualizar(req, res) {
     const { id } = req.params;
     const { status } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
+
       await StatusPedidos.update({ status }, {
         where: { id },
       });
@@ -59,11 +77,18 @@ class StatusPedidosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async deletar(req, res) {

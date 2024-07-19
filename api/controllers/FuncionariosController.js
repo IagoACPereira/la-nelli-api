@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import Funcionarios from '../models/Funcionarios.js';
 
 class FuncionariosController {
@@ -10,7 +11,11 @@ class FuncionariosController {
       dataContratacao,
       idCargo,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoFuncionario = await Funcionarios.create({
         nome,
         telefone,
@@ -26,11 +31,18 @@ class FuncionariosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -72,7 +84,11 @@ class FuncionariosController {
       dataContratacao,
       idCargo,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await Funcionarios.update({
         nome,
         telefone,
@@ -89,11 +105,17 @@ class FuncionariosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
-    }
+    } return 0;
   }
 
   static async deletar(req, res) {

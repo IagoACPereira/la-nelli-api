@@ -1,9 +1,14 @@
+import { validationResult } from 'express-validator';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
 
 class CargosFuncionariosController {
   static async adicionar(req, res) {
     const { cargo } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoCargo = await CargosFuncionarios.create({ cargo });
 
       res.status(201).json({
@@ -12,11 +17,18 @@ class CargosFuncionariosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -50,7 +62,11 @@ class CargosFuncionariosController {
   static async atualizar(req, res) {
     const { id } = req.params;
     const { cargo } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await CargosFuncionarios.update({ cargo }, {
         where: { id },
       });
@@ -60,11 +76,18 @@ class CargosFuncionariosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async deletar(req, res) {

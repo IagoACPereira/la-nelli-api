@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import Pedidos from '../models/Pedidos.js';
 
 class PedidosController {
@@ -7,12 +8,16 @@ class PedidosController {
       total,
       idCliente,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoPedido = await Pedidos.create({
         data_pedido: dataPedido,
         total,
         id_cliente: idCliente,
-        id_status: 1,
+        id_status: 5,
       });
       res.status(201).json({
         mensagem: 'Novo pedido adicionado com sucesso',
@@ -20,11 +25,18 @@ class PedidosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -63,7 +75,11 @@ class PedidosController {
       idCliente,
       idStatus,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await Pedidos.update({
         data_pedido: dataPedido,
         total,
@@ -78,11 +94,17 @@ class PedidosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
-    }
+    } return 0;
   }
 
   static async deletar(req, res) {

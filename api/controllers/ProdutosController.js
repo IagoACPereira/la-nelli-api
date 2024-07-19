@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import Produtos from '../models/Produtos.js';
 
 class ProdutosController {
@@ -10,7 +11,11 @@ class ProdutosController {
       precoCompra,
       idCategoria,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoProduto = await Produtos.create({
         nome,
         descricao,
@@ -26,11 +31,18 @@ class ProdutosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -72,7 +84,11 @@ class ProdutosController {
       precoCompra,
       idCategoria,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await Produtos.update({
         nome,
         descricao,
@@ -89,11 +105,17 @@ class ProdutosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
-    }
+    } return 0;
   }
 
   static async deletar(req, res) {

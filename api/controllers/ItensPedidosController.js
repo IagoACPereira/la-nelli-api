@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import ItensPedidos from '../models/ItensPedidos.js';
 
 class ItensPedidosController {
@@ -7,7 +8,11 @@ class ItensPedidosController {
       idPedido,
       idProduto,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoItem = await ItensPedidos.create({
         quantidade,
         id_pedido: idPedido,
@@ -19,11 +24,18 @@ class ItensPedidosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -62,7 +74,11 @@ class ItensPedidosController {
       idPedido,
       idProduto,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await ItensPedidos.update({
         quantidade,
         id_pedido: idPedido,
@@ -76,11 +92,17 @@ class ItensPedidosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
-    }
+    } return 0;
   }
 
   static async deletar(req, res) {

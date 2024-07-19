@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import ProdutosFornecedores from '../models/ProdutosFornecedores.js';
 
 class ProdutosFornecedoresController {
@@ -6,7 +7,11 @@ class ProdutosFornecedoresController {
       idFornecedor,
       idProduto,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoProduto = await ProdutosFornecedores.create({
         id_fornecedor: idFornecedor,
         id_produto: idProduto,
@@ -18,11 +23,18 @@ class ProdutosFornecedoresController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -59,7 +71,11 @@ class ProdutosFornecedoresController {
       idFornecedor,
       idProduto,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await ProdutosFornecedores.update({
         id_fornecedor: idFornecedor,
         id_produto: idProduto,
@@ -72,11 +88,18 @@ class ProdutosFornecedoresController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async deletar(req, res) {

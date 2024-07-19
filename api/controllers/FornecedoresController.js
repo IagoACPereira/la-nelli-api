@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import Fornecedores from '../models/Fornecedores.js';
 
 class FornecedoresController {
@@ -8,7 +9,11 @@ class FornecedoresController {
       email,
       endereco,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novoFornecedor = await Fornecedores.create({
         nome,
         telefone,
@@ -21,11 +26,18 @@ class FornecedoresController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -65,7 +77,11 @@ class FornecedoresController {
       email,
       endereco,
     } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await Fornecedores.update({
         nome,
         telefone,
@@ -80,11 +96,18 @@ class FornecedoresController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async deletar(req, res) {

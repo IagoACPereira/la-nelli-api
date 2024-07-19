@@ -1,9 +1,14 @@
+import { validationResult } from 'express-validator';
 import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class CategoriasProdutosController {
   static async adicionar(req, res) {
     const { categoria } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       const novaCategoria = await CategoriasProdutos.create({ categoria });
       res.status(201).json({
         mensagem: 'Nova categoria adicionada com sucesso',
@@ -11,11 +16,18 @@ class CategoriasProdutosController {
         status: 201,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async exibirTodos(req, res) {
@@ -50,7 +62,11 @@ class CategoriasProdutosController {
   static async atualizar(req, res) {
     const { id } = req.params;
     const { categoria } = req.body;
+    const validacao = validationResult(req);
     try {
+      if (!validacao.isEmpty()) {
+        throw new Error('Erro de validação');
+      }
       await CategoriasProdutos.update({ categoria }, {
         where: { id },
       });
@@ -60,11 +76,18 @@ class CategoriasProdutosController {
         status: 200,
       });
     } catch (error) {
+      if (error.message === 'Erro de validação') {
+        return res.status(400).json({
+          mensagem: validacao.array()[0].msg,
+          status: 400,
+        });
+      }
       res.status(400).json({
         mensagem: error.message,
         status: 400,
       });
     }
+    return 0;
   }
 
   static async deletar(req, res) {
