@@ -9,6 +9,15 @@ class CategoriasProdutosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await CategoriasProdutos.findOne({
+        where: { categoria },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novaCategoria = await CategoriasProdutos.create({ categoria });
       res.status(201).json({
         mensagem: 'Nova categoria adicionada com sucesso',

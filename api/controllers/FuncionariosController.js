@@ -16,6 +16,22 @@ class FuncionariosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await Funcionarios.findOne({
+        where: {
+          nome,
+          telefone,
+          email,
+          salario,
+          data_contratacao: dataContratacao,
+          id_cargo: idCargo,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novoFuncionario = await Funcionarios.create({
         nome,
         telefone,

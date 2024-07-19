@@ -13,6 +13,19 @@ class PedidosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await Pedidos.findOne({
+        where: {
+          data_pedido: dataPedido,
+          total,
+          id_cliente: idCliente,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novoPedido = await Pedidos.create({
         data_pedido: dataPedido,
         total,

@@ -14,6 +14,20 @@ class ClientesController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await Clientes.findOne({
+        where: {
+          nome,
+          telefone,
+          email,
+          endereco,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novoCliente = await Clientes.create({
         nome,
         telefone,

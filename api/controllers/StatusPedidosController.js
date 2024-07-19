@@ -10,6 +10,14 @@ class StatusPedidosController {
         throw new Error('Erro de validação');
       }
 
+      const buscarRegistro = await StatusPedidos.findOne({
+        where: { status },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novoStatus = await StatusPedidos.create({ status });
       res.status(201).json({
         mensagem: 'Novo status adicionado com sucesso',

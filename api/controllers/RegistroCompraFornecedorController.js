@@ -15,6 +15,21 @@ class RegistroCompraFornecedorController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await RegistroCompraFornecedor.findOne({
+        where: {
+          quantidade,
+          custo,
+          id_funcionario: idFuncionario,
+          id_produto: idProduto,
+          id_fornecedor: idFornecedor,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novaCompra = await RegistroCompraFornecedor.create({
         quantidade,
         custo,

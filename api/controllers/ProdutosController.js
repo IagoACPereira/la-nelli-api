@@ -16,6 +16,22 @@ class ProdutosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await Produtos.findOne({
+        where: {
+          nome,
+          descricao,
+          qtd_estoque: qtdEstoque,
+          preco_venda: precoVenda,
+          preco_compra: precoCompra,
+          id_categoria: idCategoria,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novoProduto = await Produtos.create({
         nome,
         descricao,

@@ -13,6 +13,19 @@ class ItensPedidosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const buscarRegistro = await ItensPedidos.findOne({
+        where: {
+          quantidade,
+          id_pedido: idPedido,
+          id_produto: idProduto,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       const novoItem = await ItensPedidos.create({
         quantidade,
         id_pedido: idPedido,
