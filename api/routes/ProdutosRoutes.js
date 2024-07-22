@@ -2,11 +2,12 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import ProdutosController from '../controllers/ProdutosController.js';
 import autenticacao from '../middlewares/autenticacao.js';
+import permissao from '../middlewares/permissao.js';
 
 const produtosRouter = Router();
 
 produtosRouter
-  .post('/produtos/', autenticacao, [
+  .post('/produtos/', autenticacao, permissao(['admin']), [
     body('nome').notEmpty().withMessage('Campo nome é obrigatório'),
     body('descricao').notEmpty().withMessage('Campo Descricao é obrigatório'),
     body('qtdEstoque').notEmpty().withMessage('Campo Qtd em Estoque é obrigatório'),
@@ -18,9 +19,9 @@ produtosRouter
     body('idCategoria').notEmpty().withMessage('Campo Categoria é obrigatório'),
     body('idCategoria').isNumeric().withMessage('Campo Categoria deve ser numérico'),
   ], ProdutosController.adicionar)
-  .get('/produtos/', autenticacao, ProdutosController.exibirTodos)
-  .get('/produtos/:id', autenticacao, ProdutosController.exibirUm)
-  .put('/produtos/:id', autenticacao, [
+  .get('/produtos/', autenticacao, permissao(['admin']), ProdutosController.exibirTodos)
+  .get('/produtos/:id', autenticacao, permissao(['admin']), ProdutosController.exibirUm)
+  .put('/produtos/:id', autenticacao, permissao(['admin']), [
     body('nome').notEmpty().withMessage('Campo nome é obrigatório'),
     body('descricao').notEmpty().withMessage('Campo Descricao é obrigatório'),
     body('qtdEstoque').notEmpty().withMessage('Campo Qtd em Estoque é obrigatório'),
@@ -32,6 +33,6 @@ produtosRouter
     body('idCategoria').notEmpty().withMessage('Campo Categoria é obrigatório'),
     body('idCategoria').isNumeric().withMessage('Campo Categoria deve ser numérico'),
   ], ProdutosController.atualizar)
-  .delete('/produtos/:id', autenticacao, ProdutosController.deletar);
+  .delete('/produtos/:id', autenticacao, permissao(['admin']), ProdutosController.deletar);
 
 export default produtosRouter;

@@ -7,7 +7,7 @@ import permissao from '../middlewares/permissao.js';
 const funcionariosRouter = Router();
 
 funcionariosRouter
-  .post('/funcionarios/', autenticacao, [
+  .post('/funcionarios/', autenticacao, permissao(['admin']), [
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
     body('email').notEmpty().withMessage('Campo Email é obrigatório'),
@@ -21,9 +21,9 @@ funcionariosRouter
     body('idCargo').notEmpty().withMessage('Campo Cargo é obrigatório'),
     body('idCargo').isNumeric().withMessage('Campo Cargo deve ser numérico'),
   ], FuncionariosController.adicionar)
-  .get('/funcionarios/', autenticacao, permissao(['admin']), FuncionariosController.exibirTodos)
-  .get('/funcionarios/:id', autenticacao, FuncionariosController.exibirUm)
-  .put('/funcionarios/:id', autenticacao, [
+  .get('/funcionarios/', autenticacao, permissao(['admin']), permissao(['admin']), FuncionariosController.exibirTodos)
+  .get('/funcionarios/:id', autenticacao, permissao(['admin']), FuncionariosController.exibirUm)
+  .put('/funcionarios/:id', autenticacao, permissao(['admin']), [
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
     body('email').notEmpty().withMessage('Campo Email é obrigatório'),
@@ -34,6 +34,6 @@ funcionariosRouter
     body('idCargo').notEmpty().withMessage('Campo Cargo é obrigatório'),
     body('idCargo').isNumeric().withMessage('Campo Cargo deve ser numérico'),
   ], FuncionariosController.atualizar)
-  .delete('/funcionarios/:id', autenticacao, FuncionariosController.deletar);
+  .delete('/funcionarios/:id', autenticacao, permissao(['admin']), FuncionariosController.deletar);
 
 export default funcionariosRouter;
