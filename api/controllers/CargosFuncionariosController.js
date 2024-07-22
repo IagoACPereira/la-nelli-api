@@ -58,6 +58,10 @@ class CargosFuncionariosController {
         where: { id },
       });
 
+      if (!cargoFuncionario) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(cargoFuncionario);
     } catch (error) {
       res.status(400).json({
@@ -75,6 +79,15 @@ class CargosFuncionariosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const cargoFuncionario = await CargosFuncionarios.findOne({
+        where: { id },
+      });
+
+      if (!cargoFuncionario) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await CargosFuncionarios.update({ cargo }, {
         where: { id },
       });
@@ -101,6 +114,14 @@ class CargosFuncionariosController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const cargoFuncionario = await CargosFuncionarios.findOne({
+        where: { id },
+      });
+
+      if (!cargoFuncionario) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await CargosFuncionarios.destroy({
         where: { id },
       });

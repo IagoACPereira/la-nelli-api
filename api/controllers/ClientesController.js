@@ -75,6 +75,10 @@ class ClientesController {
         where: { id },
       });
 
+      if (!cliente) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(cliente);
     } catch (error) {
       res.status(400).json({
@@ -97,6 +101,15 @@ class ClientesController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const cliente = await Clientes.findOne({
+        where: { id },
+      });
+
+      if (!cliente) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Clientes.update({
         nome,
         telefone,
@@ -128,6 +141,14 @@ class ClientesController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const cliente = await Clientes.findOne({
+        where: { id },
+      });
+
+      if (!cliente) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Clientes.destroy({
         where: { id },
       });

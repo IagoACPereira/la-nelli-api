@@ -81,6 +81,10 @@ class ProdutosController {
         where: { id },
       });
 
+      if (!produto) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(produto);
     } catch (error) {
       res.status(400).json({
@@ -105,6 +109,15 @@ class ProdutosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const produto = await Produtos.findOne({
+        where: { id },
+      });
+
+      if (!produto) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Produtos.update({
         nome,
         descricao,
@@ -137,6 +150,14 @@ class ProdutosController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const produto = await Produtos.findOne({
+        where: { id },
+      });
+
+      if (!produto) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Produtos.destroy({
         where: { id },
       });

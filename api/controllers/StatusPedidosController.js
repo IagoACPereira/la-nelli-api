@@ -59,6 +59,10 @@ class StatusPedidosController {
         where: { id },
       });
 
+      if (!statusPedido) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(statusPedido);
     } catch (error) {
       res.status(400).json({
@@ -75,6 +79,14 @@ class StatusPedidosController {
     try {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
+      }
+
+      const statusPedido = await StatusPedidos.findOne({
+        where: { id },
+      });
+
+      if (!statusPedido) {
+        throw new Error(`Não existem registros com o id ${id}`);
       }
 
       await StatusPedidos.update({ status }, {
@@ -102,6 +114,14 @@ class StatusPedidosController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const statusPedido = await StatusPedidos.findOne({
+        where: { id },
+      });
+
+      if (!statusPedido) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await StatusPedidos.destroy({
         where: { id },
       });

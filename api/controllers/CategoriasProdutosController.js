@@ -59,6 +59,10 @@ class CategoriasProdutosController {
         where: { id },
       });
 
+      if (!categoriaProduto) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(categoriaProduto);
     } catch (error) {
       res.status(400).json({
@@ -76,6 +80,15 @@ class CategoriasProdutosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const categoriaProduto = await CategoriasProdutos.findOne({
+        where: { id },
+      });
+
+      if (!categoriaProduto) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await CategoriasProdutos.update({ categoria }, {
         where: { id },
       });
@@ -102,6 +115,14 @@ class CategoriasProdutosController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const categoriaProduto = await CategoriasProdutos.findOne({
+        where: { id },
+      });
+
+      if (!categoriaProduto) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await CategoriasProdutos.destroy({
         where: { id },
       });

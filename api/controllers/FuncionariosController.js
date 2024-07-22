@@ -81,6 +81,10 @@ class FuncionariosController {
         where: { id },
       });
 
+      if (!funcionario) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(funcionario);
     } catch (error) {
       res.status(400).json({
@@ -105,6 +109,15 @@ class FuncionariosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const funcionario = await Funcionarios.findOne({
+        where: { id },
+      });
+
+      if (!funcionario) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Funcionarios.update({
         nome,
         telefone,
@@ -137,6 +150,14 @@ class FuncionariosController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const funcionario = await Funcionarios.findOne({
+        where: { id },
+      });
+
+      if (!funcionario) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Funcionarios.destroy({
         where: { id },
       });

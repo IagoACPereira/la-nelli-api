@@ -76,6 +76,10 @@ class RegistroCompraFornecedorController {
         where: { id },
       });
 
+      if (!registroCompra) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(registroCompra);
     } catch (error) {
       res.status(400).json({
@@ -99,6 +103,15 @@ class RegistroCompraFornecedorController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const registroCompra = await RegistroCompraFornecedor.findOne({
+        where: { id },
+      });
+
+      if (!registroCompra) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await RegistroCompraFornecedor.update({
         quantidade,
         custo,
@@ -130,6 +143,14 @@ class RegistroCompraFornecedorController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const registroCompra = await RegistroCompraFornecedor.findOne({
+        where: { id },
+      });
+
+      if (!registroCompra) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await RegistroCompraFornecedor.destroy({
         where: { id },
       });

@@ -68,6 +68,11 @@ class ProdutosFornecedoresController {
       const produtoFornecedor = await ProdutosFornecedores.findOne({
         where: { id },
       });
+
+      if (!produtoFornecedor) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(produtoFornecedor);
     } catch (error) {
       res.status(400).json({
@@ -88,6 +93,15 @@ class ProdutosFornecedoresController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const produtoFornecedor = await ProdutosFornecedores.findOne({
+        where: { id },
+      });
+
+      if (!produtoFornecedor) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await ProdutosFornecedores.update({
         id_fornecedor: idFornecedor,
         id_produto: idProduto,
@@ -117,6 +131,14 @@ class ProdutosFornecedoresController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const produtoFornecedor = await ProdutosFornecedores.findOne({
+        where: { id },
+      });
+
+      if (!produtoFornecedor) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await ProdutosFornecedores.destroy({
         where: { id },
       });

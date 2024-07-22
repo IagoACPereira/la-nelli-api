@@ -71,6 +71,10 @@ class PedidosController {
         where: { id },
       });
 
+      if (!pedido) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(pedido);
     } catch (error) {
       res.status(400).json({
@@ -93,6 +97,15 @@ class PedidosController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const pedido = await Pedidos.findOne({
+        where: { id },
+      });
+
+      if (!pedido) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Pedidos.update({
         data_pedido: dataPedido,
         total,
@@ -123,6 +136,14 @@ class PedidosController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const pedido = await Pedidos.findOne({
+        where: { id },
+      });
+
+      if (!pedido) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Pedidos.destroy({
         where: { id },
       });

@@ -74,6 +74,10 @@ class FornecedoresController {
         where: { id },
       });
 
+      if (!fornecedor) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       res.status(200).json(fornecedor);
     } catch (error) {
       res.status(400).json({
@@ -96,6 +100,15 @@ class FornecedoresController {
       if (!validacao.isEmpty()) {
         throw new Error('Erro de validação');
       }
+
+      const fornecedor = await Fornecedores.findOne({
+        where: { id },
+      });
+
+      if (!fornecedor) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Fornecedores.update({
         nome,
         telefone,
@@ -127,6 +140,14 @@ class FornecedoresController {
   static async deletar(req, res) {
     const { id } = req.params;
     try {
+      const fornecedor = await Fornecedores.findOne({
+        where: { id },
+      });
+
+      if (!fornecedor) {
+        throw new Error(`Não existem registros com o id ${id}`);
+      }
+
       await Fornecedores.destroy({
         where: { id },
       });
