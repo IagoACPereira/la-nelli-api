@@ -15,8 +15,8 @@ clientesRouter
     body('idCliente').notEmpty().withMessage('Campo Cliente é obrigatório'),
     body('idCliente').isNumeric().withMessage('Campo Cliente deve ser numérico'),
   ], PedidosController.adicionar)
-  .get('/pedidos/', autenticacao, permissao(['admin']), PedidosController.exibirTodos)
-  .get('/pedidos/:id', autenticacao, permissao(['admin']), PedidosController.exibirUm)
+  .get('/pedidos/', autenticacao, permissao(['admin', 'leitura']), PedidosController.exibirTodos)
+  .get('/pedidos/:id', autenticacao, permissao(['admin', 'leitura']), PedidosController.exibirUm)
   .put('/pedidos/:id', autenticacao, permissao(['admin']), [
     body('dataPedido').notEmpty().withMessage('Campo Data do Pedido é obrigatório'),
     body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaa-mm-dd'),

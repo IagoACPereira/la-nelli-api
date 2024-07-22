@@ -14,8 +14,8 @@ itensPedidosRouter
     body('idProduto').notEmpty().withMessage('Campo Produto é obrigatório'),
     body('idProduto').isNumeric().withMessage('Campo Produto deve ser numérico'),
   ], ItensPedidosController.adicionar)
-  .get('/itens-pedidos/', autenticacao, permissao(['admin']), ItensPedidosController.exibirTodos)
-  .get('/itens-pedidos/:id', autenticacao, permissao(['admin']), ItensPedidosController.exibirUm)
+  .get('/itens-pedidos/', autenticacao, permissao(['admin', 'leitura']), ItensPedidosController.exibirTodos)
+  .get('/itens-pedidos/:id', autenticacao, permissao(['admin', 'leitura']), ItensPedidosController.exibirUm)
   .put('/itens-pedidos/:id', autenticacao, permissao(['admin']), [
     body('quantidade').notEmpty().withMessage('Campo Quantidade é obrigatório'),
     body('idPedido').notEmpty().withMessage('Campo Pedido é obrigatório'),

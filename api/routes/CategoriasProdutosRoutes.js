@@ -10,8 +10,8 @@ categoriasProdutosRouter
   .post('/categorias-produtos/', autenticacao, permissao(['admin']), [
     body('categoria').notEmpty().withMessage('Campo Categoria é obrigatório'),
   ], CategoriasProdutosController.adicionar)
-  .get('/categorias-produtos/', autenticacao, permissao(['admin']), CategoriasProdutosController.exibirTodos)
-  .get('/categorias-produtos/:id', autenticacao, permissao(['admin']), CategoriasProdutosController.exibirUm)
+  .get('/categorias-produtos/', autenticacao, permissao(['admin', 'leitura']), CategoriasProdutosController.exibirTodos)
+  .get('/categorias-produtos/:id', autenticacao, permissao(['admin', 'leitura']), CategoriasProdutosController.exibirUm)
   .put('/categorias-produtos/:id', autenticacao, permissao(['admin']), [
     body('categoria').notEmpty().withMessage('Campo Categoria é obrigatório'),
   ], CategoriasProdutosController.atualizar)

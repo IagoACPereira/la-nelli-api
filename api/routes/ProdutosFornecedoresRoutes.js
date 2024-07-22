@@ -13,8 +13,8 @@ produtosForncedoresRouter
     body('idProduto').notEmpty().withMessage('Campo Produto é obrigatório'),
     body('idProduto').isNumeric().withMessage('Campo Produto deve ser numérico'),
   ], ProdutosFornecedoresController.adicionar)
-  .get('/produtos-fornecedores/', autenticacao, permissao(['admin']), ProdutosFornecedoresController.exibirTodos)
-  .get('/produtos-fornecedores/:id', autenticacao, permissao(['admin']), ProdutosFornecedoresController.exibirUm)
+  .get('/produtos-fornecedores/', autenticacao, permissao(['admin', 'leitura']), ProdutosFornecedoresController.exibirTodos)
+  .get('/produtos-fornecedores/:id', autenticacao, permissao(['admin', 'leitura']), ProdutosFornecedoresController.exibirUm)
   .put('/produtos-fornecedores/:id', autenticacao, permissao(['admin']), [
     body('idFornecedor').notEmpty().withMessage('Campo Fornecedor é obrigatório'),
     body('idFornecedor').isNumeric().withMessage('Campo Fornecedor deve ser numérico'),

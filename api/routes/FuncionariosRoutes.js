@@ -21,8 +21,8 @@ funcionariosRouter
     body('idCargo').notEmpty().withMessage('Campo Cargo é obrigatório'),
     body('idCargo').isNumeric().withMessage('Campo Cargo deve ser numérico'),
   ], FuncionariosController.adicionar)
-  .get('/funcionarios/', autenticacao, permissao(['admin']), permissao(['admin']), FuncionariosController.exibirTodos)
-  .get('/funcionarios/:id', autenticacao, permissao(['admin']), FuncionariosController.exibirUm)
+  .get('/funcionarios/', autenticacao, permissao(['admin', 'leitura']), FuncionariosController.exibirTodos)
+  .get('/funcionarios/:id', autenticacao, permissao(['admin', 'leitura']), FuncionariosController.exibirUm)
   .put('/funcionarios/:id', autenticacao, permissao(['admin']), [
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
