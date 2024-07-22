@@ -2,15 +2,17 @@
 
 `.env`
 ```js
-PORTA="[Porta da API]"
+PORTA='[Porta da API]'
 
-DATABASE="[Nome do Banco]"
+DATABASE='[Nome do Banco]'
 
-PORTADB="[Porta do Banco]"
+PORTADB='[Porta do Banco]'
 
-USUARIODB="[Usuário do Banco]"
+USUARIODB='[Usuário do Banco]'
 
-SENHADB="[Senha do Banco]"
+SENHADB='[Senha do Banco]'
 
-HOSTDB="[Host do Banco]"
+HOSTDB='[Host do Banco]'
+
+SEGREDO='[Segredo]'
 ```
