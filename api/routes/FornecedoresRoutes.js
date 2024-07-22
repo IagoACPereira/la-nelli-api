@@ -9,6 +9,7 @@ fornecedores
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
     body('email').notEmpty().withMessage('Campo Email é obrigatório'),
+    body('email').isEmail().withMessage('Campo Email tem de ser um email válido'),
     body('endereco').notEmpty().withMessage('Campo Endereco é obrigatório'),
   ], FornecedoresController.adicionar)
   .get('/fornecedores/', FornecedoresController.exibirTodos)
@@ -17,6 +18,7 @@ fornecedores
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
     body('email').notEmpty().withMessage('Campo Email é obrigatório'),
+    body('email').isEmail().withMessage('Campo Email tem de ser um email válido'),
     body('endereco').notEmpty().withMessage('Campo Endereco é obrigatório'),
   ], FornecedoresController.atualizar)
   .delete('/fornecedores/:id', FornecedoresController.deletar);
