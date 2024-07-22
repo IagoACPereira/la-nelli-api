@@ -16,6 +16,10 @@ const Funcionarios = sequelize.define('funcionarios', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   salario: {
     type: DataTypes.DOUBLE,
     allowNull: false,

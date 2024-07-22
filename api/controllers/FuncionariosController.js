@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
 import Funcionarios from '../models/Funcionarios.js';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
 
@@ -6,11 +7,16 @@ class FuncionariosController {
   static async adicionar(req, res) {
     const nome = req.body.nome ? req.body.nome.toLowerCase().trim() : null;
     const email = req.body.email ? req.body.email.toLowerCase().trim() : null;
+    const senha = req.body.senha ? req.body.senha.toLowerCase().trim() : null;
+    const confirmacaoSenha = req.body.confirmacaoSenha
+      ? req.body.confirmacaoSenha.toLowerCase().trim()
+      : null;
     const {
       telefone,
       salario,
-      idCargo,
       dataContratacao,
+      idCargo,
+      idPermissao,
     } = req.body;
     const validacao = validationResult(req);
     try {
@@ -26,6 +32,7 @@ class FuncionariosController {
           salario,
           data_contratacao: dataContratacao,
           id_cargo: idCargo,
+          id_permissao: idPermissao,
         },
       });
 
@@ -33,13 +40,19 @@ class FuncionariosController {
         throw new Error('Já existe um registro com esses mesmos dados');
       }
 
+      if (confirmacaoSenha !== senha) {
+        throw new Error('Campo senha e confirmação senha são diferentes');
+      }
+
       const novoFuncionario = await Funcionarios.create({
         nome,
         telefone,
         email,
+        senha: await bcrypt.hash(senha, 10),
         salario,
         data_contratacao: dataContratacao,
         id_cargo: idCargo,
+        id_permissao: idPermissao,
       });
 
       res.status(201).json({
