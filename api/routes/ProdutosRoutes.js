@@ -19,9 +19,9 @@ produtosRouter
     body('idCategoria').notEmpty().withMessage('Campo Categoria é obrigatório'),
     body('idCategoria').isNumeric().withMessage('Campo Categoria deve ser numérico'),
   ], ProdutosController.adicionar)
-  .get('/produtos/', autenticacao, permissao(['admin', 'leitura']), ProdutosController.exibirTodos)
-  .get('/produtos/:id', autenticacao, permissao(['admin', 'leitura']), ProdutosController.exibirUm)
-  .put('/produtos/:id', autenticacao, permissao(['admin']), [
+  .get('/produtos/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), ProdutosController.exibirTodos)
+  .get('/produtos/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), ProdutosController.exibirUm)
+  .put('/produtos/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('nome').notEmpty().withMessage('Campo nome é obrigatório'),
     body('descricao').notEmpty().withMessage('Campo Descricao é obrigatório'),
     body('qtdEstoque').notEmpty().withMessage('Campo Qtd em Estoque é obrigatório'),

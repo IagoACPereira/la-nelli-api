@@ -11,9 +11,9 @@ permissoesRouter
     body('titulo').notEmpty().withMessage('Campo Título é obrigatório'),
     body('descricao').notEmpty().withMessage('Campo Descrição é obrigatório'),
   ], PermissoesController.adicionar)
-  .get('/permissoes/', autenticacao, permissao(['admin', 'leitura']), PermissoesController.exibirTodos)
-  .get('/permissoes/:id', autenticacao, permissao(['admin', 'leitura']), PermissoesController.exibirUm)
-  .put('/permissoes/:id', autenticacao, permissao(['admin']), [
+  .get('/permissoes/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), PermissoesController.exibirTodos)
+  .get('/permissoes/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), PermissoesController.exibirUm)
+  .put('/permissoes/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('titulo').notEmpty().withMessage('Campo Título é obrigatório'),
     body('descricao').notEmpty().withMessage('Campo Descrição é obrigatório'),
   ], PermissoesController.atualizar)

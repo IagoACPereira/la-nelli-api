@@ -10,9 +10,9 @@ statusPedidosRouter
   .post('/status-pedidos/', autenticacao, permissao(['admin']), [
     body('status').notEmpty().withMessage('Campo Status é obrigatório'),
   ], StatusPedidosController.adicionar)
-  .get('/status-pedidos/', autenticacao, permissao(['admin', 'leitura']), StatusPedidosController.exibirTodos)
-  .get('/status-pedidos/:id', autenticacao, permissao(['admin', 'leitura']), StatusPedidosController.exibirUm)
-  .put('/status-pedidos/:id', autenticacao, permissao(['admin']), [
+  .get('/status-pedidos/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), StatusPedidosController.exibirTodos)
+  .get('/status-pedidos/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), StatusPedidosController.exibirUm)
+  .put('/status-pedidos/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('status').notEmpty().withMessage('Campo Status é obrigatório'),
   ], StatusPedidosController.atualizar)
   .delete('/status-pedidos/:id', autenticacao, permissao(['admin']), StatusPedidosController.deletar);

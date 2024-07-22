@@ -14,9 +14,9 @@ fornecedores
     body('email').isEmail().withMessage('Campo Email tem de ser um email válido'),
     body('endereco').notEmpty().withMessage('Campo Endereco é obrigatório'),
   ], FornecedoresController.adicionar)
-  .get('/fornecedores/', autenticacao, permissao(['admin', 'leitura']), FornecedoresController.exibirTodos)
-  .get('/fornecedores/:id', autenticacao, permissao(['admin', 'leitura']), FornecedoresController.exibirUm)
-  .put('/fornecedores/:id', autenticacao, permissao(['admin']), [
+  .get('/fornecedores/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), FornecedoresController.exibirTodos)
+  .get('/fornecedores/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), FornecedoresController.exibirUm)
+  .put('/fornecedores/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
     body('email').notEmpty().withMessage('Campo Email é obrigatório'),

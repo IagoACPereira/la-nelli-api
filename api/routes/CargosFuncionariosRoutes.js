@@ -10,9 +10,9 @@ cargosFuncionariosRouter
   .post('/cargos-funcionarios/', autenticacao, permissao(['admin']), [
     body('cargo').notEmpty().withMessage('Campo Cargo é obrigatório'),
   ], CargosFuncionariosController.adicionar)
-  .get('/cargos-funcionarios/', autenticacao, permissao(['admin', 'leitura']), CargosFuncionariosController.exibirTodos)
-  .get('/cargos-funcionarios/:id', autenticacao, permissao(['admin', 'leitura']), CargosFuncionariosController.exibirUm)
-  .put('/cargos-funcionarios/:id', autenticacao, permissao(['admin']), [
+  .get('/cargos-funcionarios/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), CargosFuncionariosController.exibirTodos)
+  .get('/cargos-funcionarios/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), CargosFuncionariosController.exibirUm)
+  .put('/cargos-funcionarios/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('cargo').notEmpty().withMessage('Campo Cargo é obrigatório'),
   ], CargosFuncionariosController.atualizar)
   .delete('/cargos-funcionarios/:id', autenticacao, permissao(['admin']), CargosFuncionariosController.deletar);

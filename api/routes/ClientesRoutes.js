@@ -14,9 +14,9 @@ clientesRouter
     body('email').isEmail().withMessage('Campo Email tem de ser um email válido'),
     body('endereco').notEmpty().withMessage('Campo Endereco é obrigatório'),
   ], ClientesController.adicionar)
-  .get('/clientes/', autenticacao, permissao(['admin', 'leitura']), ClientesController.exibirTodos)
-  .get('/clientes/:id', autenticacao, permissao(['admin', 'leitura']), ClientesController.exibirUm)
-  .put('/clientes/:id', autenticacao, permissao(['admin']), [
+  .get('/clientes/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), ClientesController.exibirTodos)
+  .get('/clientes/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), ClientesController.exibirUm)
+  .put('/clientes/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
     body('telefone').notEmpty().withMessage('Campo Telefone é obrigatório'),
     body('email').notEmpty().withMessage('Campo Email é obrigatório'),

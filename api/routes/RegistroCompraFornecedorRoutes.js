@@ -18,9 +18,9 @@ registroCompraFornecedorRouter
     body('idFornecedor').notEmpty().withMessage('Campo Fornecedor é obrigatório'),
     body('idFornecedor').isNumeric().withMessage('Campo Fornecedor deve ser numérico'),
   ], RegistroCompraFornecedorController.adicionar)
-  .get('/registro-compra-fornecedor/', autenticacao, permissao(['admin', 'leitura']), RegistroCompraFornecedorController.exibirTodos)
-  .get('/registro-compra-fornecedor/:id', autenticacao, permissao(['admin', 'leitura']), RegistroCompraFornecedorController.exibirUm)
-  .put('/registro-compra-fornecedor/:id', autenticacao, permissao(['admin']), [
+  .get('/registro-compra-fornecedor/', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), RegistroCompraFornecedorController.exibirTodos)
+  .get('/registro-compra-fornecedor/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), RegistroCompraFornecedorController.exibirUm)
+  .put('/registro-compra-fornecedor/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('quantidade').notEmpty().withMessage('Campo Quantidade é obrigatório'),
     body('custo').notEmpty().withMessage('Campo Custo é obrigatório'),
     body('custo').isNumeric().withMessage('Campo Custo deve ser numérico'),
