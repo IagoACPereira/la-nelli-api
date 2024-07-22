@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import CategoriasProdutos from '../models/CategoriasProdutos.js';
+import Produtos from '../models/Produtos.js';
 
 class CategoriasProdutosController {
   static async adicionar(req, res) {
@@ -41,7 +42,14 @@ class CategoriasProdutosController {
 
   static async exibirTodos(req, res) {
     try {
-      const categoriasProdutos = await CategoriasProdutos.findAll();
+      const categoriasProdutos = await CategoriasProdutos.findAll({
+        include: [
+          {
+            model: Produtos,
+            attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra', 'preco_venda'],
+          },
+        ],
+      });
 
       res.status(200).json(categoriasProdutos);
     } catch (error) {
@@ -57,6 +65,12 @@ class CategoriasProdutosController {
     try {
       const categoriaProduto = await CategoriasProdutos.findOne({
         where: { id },
+        include: [
+          {
+            model: Produtos,
+            attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+          },
+        ],
       });
 
       if (!categoriaProduto) {

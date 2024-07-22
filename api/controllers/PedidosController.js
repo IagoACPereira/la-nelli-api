@@ -1,5 +1,10 @@
 import { validationResult } from 'express-validator';
 import Pedidos from '../models/Pedidos.js';
+import Clientes from '../models/Clientes.js';
+import StatusPedidos from '../models/StatusPedidos.js';
+import ItensPedidos from '../models/ItensPedidos.js';
+import Produtos from '../models/Produtos.js';
+import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class PedidosController {
   static async adicionar(req, res) {
@@ -52,7 +57,32 @@ class PedidosController {
 
   static async exibirTodos(req, res) {
     try {
-      const pedidos = await Pedidos.findAll();
+      const pedidos = await Pedidos.findAll({
+        attributes: ['id', 'data_pedido', 'total'],
+        include: [
+          {
+            model: Clientes,
+          },
+          {
+            model: StatusPedidos,
+          },
+          {
+            model: ItensPedidos,
+            attributes: ['id', 'quantidade'],
+            include: [
+              {
+                model: Produtos,
+                attributes: ['id', 'nome', 'descricao', 'preco_venda'],
+                include: [
+                  {
+                    model: CategoriasProdutos,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
       res.status(200).json(pedidos);
     } catch (error) {
       res.status(400).json({
@@ -67,6 +97,30 @@ class PedidosController {
     try {
       const pedido = await Pedidos.findOne({
         where: { id },
+        attributes: ['id', 'data_pedido', 'total'],
+        include: [
+          {
+            model: Clientes,
+          },
+          {
+            model: StatusPedidos,
+          },
+          {
+            model: ItensPedidos,
+            attributes: ['id', 'quantidade'],
+            include: [
+              {
+                model: Produtos,
+                attributes: ['id', 'nome', 'descricao', 'preco_venda'],
+                include: [
+                  {
+                    model: CategoriasProdutos,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
 
       if (!pedido) {

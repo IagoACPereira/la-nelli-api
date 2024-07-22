@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import StatusPedidos from '../models/StatusPedidos.js';
+import Pedidos from '../models/Pedidos.js';
 
 class StatusPedidosController {
   static async adicionar(req, res) {
@@ -41,7 +42,14 @@ class StatusPedidosController {
 
   static async exibirTodos(req, res) {
     try {
-      const statusPedidos = await StatusPedidos.findAll();
+      const statusPedidos = await StatusPedidos.findAll({
+        include: [
+          {
+            model: Pedidos,
+            attributes: ['id', 'data_pedido', 'total'],
+          },
+        ],
+      });
 
       res.status(200).json(statusPedidos);
     } catch (error) {
@@ -57,6 +65,12 @@ class StatusPedidosController {
     try {
       const statusPedido = await StatusPedidos.findOne({
         where: { id },
+        include: [
+          {
+            model: Pedidos,
+            attributes: ['id', 'data_pedido', 'total'],
+          },
+        ],
       });
 
       if (!statusPedido) {

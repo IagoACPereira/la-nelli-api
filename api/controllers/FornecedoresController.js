@@ -1,5 +1,11 @@
 import { validationResult } from 'express-validator';
 import Fornecedores from '../models/Fornecedores.js';
+import ProdutosFornecedores from '../models/ProdutosFornecedores.js';
+import Produtos from '../models/Produtos.js';
+import CategoriasProdutos from '../models/CategoriasProdutos.js';
+import RegistroCompraFornecedor from '../models/RegistroCompraFornecedor.js';
+import Funcionarios from '../models/Funcionarios.js';
+import CargosFuncionarios from '../models/CargosFuncionarios.js';
 
 class FornecedoresController {
   static async adicionar(req, res) {
@@ -54,7 +60,49 @@ class FornecedoresController {
 
   static async exibirTodos(req, res) {
     try {
-      const fornecedores = await Fornecedores.findAll();
+      const fornecedores = await Fornecedores.findAll({
+        include: [
+          {
+            model: ProdutosFornecedores,
+            attributes: ['id'],
+            include: [
+              {
+                model: Produtos,
+                attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
+                include: [
+                  {
+                    model: CategoriasProdutos,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            model: RegistroCompraFornecedor,
+            attributes: ['id', 'quantidade', 'custo'],
+            include: [
+              {
+                model: Funcionarios,
+                attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+                include: [
+                  {
+                    model: CargosFuncionarios,
+                  },
+                ],
+              },
+              {
+                model: Produtos,
+                attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
+                include: [
+                  {
+                    model: CategoriasProdutos,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
 
       res.status(200).json(fornecedores);
     } catch (error) {
@@ -70,6 +118,47 @@ class FornecedoresController {
     try {
       const fornecedor = await Fornecedores.findOne({
         where: { id },
+        include: [
+          {
+            model: ProdutosFornecedores,
+            attributes: ['id'],
+            include: [
+              {
+                model: Produtos,
+                attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
+                include: [
+                  {
+                    model: CategoriasProdutos,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            model: RegistroCompraFornecedor,
+            attributes: ['id', 'quantidade', 'custo'],
+            include: [
+              {
+                model: Funcionarios,
+                attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+                include: [
+                  {
+                    model: CargosFuncionarios,
+                  },
+                ],
+              },
+              {
+                model: Produtos,
+                attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
+                include: [
+                  {
+                    model: CategoriasProdutos,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
 
       if (!fornecedor) {

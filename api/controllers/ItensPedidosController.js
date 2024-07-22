@@ -1,5 +1,8 @@
 import { validationResult } from 'express-validator';
 import ItensPedidos from '../models/ItensPedidos.js';
+import Pedidos from '../models/Pedidos.js';
+import Produtos from '../models/Produtos.js';
+import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class ItensPedidosController {
   static async adicionar(req, res) {
@@ -51,7 +54,24 @@ class ItensPedidosController {
 
   static async exibirTodos(req, res) {
     try {
-      const itensPedidos = await ItensPedidos.findAll();
+      const itensPedidos = await ItensPedidos.findAll({
+        attributes: ['id', 'quantidade'],
+        include: [
+          {
+            model: Pedidos,
+            attributes: ['id', 'data_pedido', 'total'],
+          },
+          {
+            model: Produtos,
+            attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+            include: [
+              {
+                model: CategoriasProdutos,
+              },
+            ],
+          },
+        ],
+      });
 
       res.status(200).json(itensPedidos);
     } catch (error) {
@@ -67,6 +87,22 @@ class ItensPedidosController {
     try {
       const itemPedido = await ItensPedidos.findOne({
         where: { id },
+        attributes: ['id', 'quantidade'],
+        include: [
+          {
+            model: Pedidos,
+            attributes: ['id', 'data_pedido', 'total'],
+          },
+          {
+            model: Produtos,
+            attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+            include: [
+              {
+                model: CategoriasProdutos,
+              },
+            ],
+          },
+        ],
       });
 
       if (!itemPedido) {

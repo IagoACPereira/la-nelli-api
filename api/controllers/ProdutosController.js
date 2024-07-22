@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import Produtos from '../models/Produtos.js';
+import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class ProdutosController {
   static async adicionar(req, res) {
@@ -61,7 +62,14 @@ class ProdutosController {
 
   static async exibirTodos(req, res) {
     try {
-      const produtos = await Produtos.findAll();
+      const produtos = await Produtos.findAll({
+        attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+        include: [
+          {
+            model: CategoriasProdutos,
+          },
+        ],
+      });
 
       res.status(200).json(produtos);
     } catch (error) {
@@ -77,6 +85,12 @@ class ProdutosController {
     try {
       const produto = await Produtos.findOne({
         where: { id },
+        attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+        include: [
+          {
+            model: CategoriasProdutos,
+          },
+        ],
       });
 
       if (!produto) {

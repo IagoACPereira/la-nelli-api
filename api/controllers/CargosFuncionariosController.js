@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
+import Funcionarios from '../models/Funcionarios.js';
 
 class CargosFuncionariosController {
   static async adicionar(req, res) {
@@ -41,7 +42,14 @@ class CargosFuncionariosController {
 
   static async exibirTodos(req, res) {
     try {
-      const cargosFuncionarios = await CargosFuncionarios.findAll();
+      const cargosFuncionarios = await CargosFuncionarios.findAll({
+        include: [
+          {
+            model: Funcionarios,
+            attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+          },
+        ],
+      });
       res.status(200).json(cargosFuncionarios);
     } catch (error) {
       res.status(400).json({
@@ -56,6 +64,12 @@ class CargosFuncionariosController {
     try {
       const cargoFuncionario = await CargosFuncionarios.findOne({
         where: { id },
+        include: [
+          {
+            model: Funcionarios,
+            attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+          },
+        ],
       });
 
       if (!cargoFuncionario) {

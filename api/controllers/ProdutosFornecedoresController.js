@@ -1,5 +1,8 @@
 import { validationResult } from 'express-validator';
 import ProdutosFornecedores from '../models/ProdutosFornecedores.js';
+import Fornecedores from '../models/Fornecedores.js';
+import Produtos from '../models/Produtos.js';
+import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class ProdutosFornecedoresController {
   static async adicionar(req, res) {
@@ -49,7 +52,23 @@ class ProdutosFornecedoresController {
 
   static async exibirTodos(req, res) {
     try {
-      const produtosFornecedores = await ProdutosFornecedores.findAll();
+      const produtosFornecedores = await ProdutosFornecedores.findAll({
+        attributes: ['id'],
+        include: [
+          {
+            model: Fornecedores,
+          },
+          {
+            model: Produtos,
+            attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_compra'],
+            include: [
+              {
+                model: CategoriasProdutos,
+              },
+            ],
+          },
+        ],
+      });
 
       res.status(200).json(produtosFornecedores);
     } catch (error) {
@@ -65,6 +84,21 @@ class ProdutosFornecedoresController {
     try {
       const produtoFornecedor = await ProdutosFornecedores.findOne({
         where: { id },
+        attributes: ['id'],
+        include: [
+          {
+            model: Fornecedores,
+          },
+          {
+            model: Produtos,
+            attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_compra'],
+            include: [
+              {
+                model: CategoriasProdutos,
+              },
+            ],
+          },
+        ],
       });
 
       if (!produtoFornecedor) {
