@@ -26,4 +26,6 @@ ItensPedidos.belongsTo(Produtos, {
   foreignKey: 'id_produto',
 });
 
+// ItensPedidos.sync({ force: true });
+
 export default ItensPedidos;

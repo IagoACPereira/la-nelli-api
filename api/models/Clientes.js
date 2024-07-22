@@ -23,4 +23,6 @@ const Clientes = sequelize.define('clientes', {
   freezeTableName: true,
 });
 
+// Clientes.sync({ force: true });
+
 export default Clientes;

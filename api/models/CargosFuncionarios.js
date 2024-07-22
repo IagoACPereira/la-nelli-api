@@ -11,4 +11,6 @@ const CargosFuncionarios = sequelize.define('cargos_funcionarios', {
   freezeTableName: true,
 });
 
+// CargosFuncionarios.sync({ force: true });
+
 export default CargosFuncionarios;

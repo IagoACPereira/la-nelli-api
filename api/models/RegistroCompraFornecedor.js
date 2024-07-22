@@ -10,7 +10,7 @@ const RegistroCompraFornecedor = sequelize.define('registro_compra_fornecedor', 
     allowNull: false,
   },
   custo: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.DECIMAL,
     allowNull: false,
   },
 }, {
@@ -36,5 +36,7 @@ Fornecedores.hasMany(RegistroCompraFornecedor, {
 RegistroCompraFornecedor.belongsTo(Fornecedores, {
   foreignKey: 'id_fornecedor',
 });
+
+// RegistroCompraFornecedor.sync({ force: true });
 
 export default RegistroCompraFornecedor;

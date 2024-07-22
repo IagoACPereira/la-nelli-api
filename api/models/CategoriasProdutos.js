@@ -11,4 +11,6 @@ const CategoriasProdutos = sequelize.define('categorias_produtos', {
   freezeTableName: true,
 });
 
+// CategoriasProdutos.sync({ force: true });
+
 export default CategoriasProdutos;

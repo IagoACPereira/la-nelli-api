@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/conexaoDb.js';
 import CargosFuncionarios from './CargosFuncionarios.js';
+import Permissoes from './Permissoes.js';
 
 const Funcionarios = sequelize.define('funcionarios', {
   nome: {
@@ -16,7 +17,7 @@ const Funcionarios = sequelize.define('funcionarios', {
     allowNull: false,
   },
   salario: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.DOUBLE,
     allowNull: false,
   },
   data_contratacao: {
@@ -34,5 +35,13 @@ CargosFuncionarios.hasMany(Funcionarios, {
 Funcionarios.belongsTo(CargosFuncionarios, {
   foreignKey: 'id_cargo',
 });
+Permissoes.hasMany(Funcionarios, {
+  foreignKey: 'id_permissao',
+});
+Funcionarios.belongsTo(Permissoes, {
+  foreignKey: 'id_permissao',
+});
+
+// Funcionarios.sync({ force: true });
 
 export default Funcionarios;

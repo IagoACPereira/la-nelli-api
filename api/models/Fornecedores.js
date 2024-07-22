@@ -23,4 +23,6 @@ const Fornecedores = sequelize.define('fornecedores', {
   freezeTableName: true,
 });
 
+// Fornecedores.sync({ force: true });
+
 export default Fornecedores;

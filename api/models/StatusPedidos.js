@@ -11,4 +11,6 @@ const StatusPedidos = sequelize.define('status_pedidos', {
   freezeTableName: true,
 });
 
+// StatusPedidos.sync({ force: true });
+
 export default StatusPedidos;

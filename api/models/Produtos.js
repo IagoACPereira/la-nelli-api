@@ -16,11 +16,11 @@ const Produtos = sequelize.define('produtos', {
     allowNull: false,
   },
   preco_venda: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.DOUBLE,
     allowNull: false,
   },
   preco_compra: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.DOUBLE,
     allowNull: false,
   },
 }, {
@@ -34,5 +34,7 @@ CategoriasProdutos.hasMany(Produtos, {
 Produtos.belongsTo(CategoriasProdutos, {
   foreignKey: 'id_categoria',
 });
+
+// Produtos.sync({ force: true });
 
 export default Produtos;

@@ -20,4 +20,6 @@ ProdutosFornecedores.belongsTo(Produtos, {
   foreignKey: 'id_produto',
 });
 
+// ProdutosFornecedores.sync({ force: true });
+
 export default ProdutosFornecedores;

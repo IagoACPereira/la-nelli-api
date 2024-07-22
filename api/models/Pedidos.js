@@ -30,4 +30,6 @@ Pedidos.belongsTo(StatusPedidos, {
   foreignKey: 'id_status',
 });
 
+// Pedidos.sync({ force: true });
+
 export default Pedidos;
