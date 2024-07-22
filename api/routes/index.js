@@ -12,6 +12,7 @@ import produtosFornecedores from './ProdutosFornecedoresRoutes.js';
 import registroCompraFornecedor from './RegistroCompraFornecedorRoutes.js';
 import erro404 from '../middlewares/erro404.js';
 import permissoes from './PermissoesRoutes.js';
+import auth from './AuthRoutes.js';
 
 function router(app) {
   app
@@ -38,6 +39,7 @@ function router(app) {
       produtosFornecedores,
       registroCompraFornecedor,
       permissoes,
+      auth,
       erro404,
     );
 }

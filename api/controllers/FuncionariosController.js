@@ -2,15 +2,16 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import Funcionarios from '../models/Funcionarios.js';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
+import Permissoes from '../models/Permissoes.js';
 
 class FuncionariosController {
   static async adicionar(req, res) {
     const nome = req.body.nome ? req.body.nome.toLowerCase().trim() : null;
     const email = req.body.email ? req.body.email.toLowerCase().trim() : null;
-    const senha = req.body.senha ? req.body.senha.toLowerCase().trim() : null;
-    const confirmacaoSenha = req.body.confirmacaoSenha
-      ? req.body.confirmacaoSenha.toLowerCase().trim()
-      : null;
+    const {
+      senha,
+      confirmacaoSenha,
+    } = req.body;
     const {
       telefone,
       salario,
@@ -83,6 +84,10 @@ class FuncionariosController {
           {
             model: CargosFuncionarios,
           },
+          {
+            model: Permissoes,
+            attributes: ['id', 'titulo'],
+          },
         ],
       });
 
@@ -104,6 +109,9 @@ class FuncionariosController {
         include: [
           {
             model: CargosFuncionarios,
+          },
+          {
+            model: Permissoes,
           },
         ],
       });

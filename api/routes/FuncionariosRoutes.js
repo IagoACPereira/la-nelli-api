@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 import FuncionariosController from '../controllers/FuncionariosController.js';
+import autenticacao from '../middlewares/autenticacao.js';
+import permissao from '../middlewares/permissao.js';
 
 const funcionariosRouter = Router();
 
@@ -19,7 +21,7 @@ funcionariosRouter
     body('idCargo').notEmpty().withMessage('Campo Cargo é obrigatório'),
     body('idCargo').isNumeric().withMessage('Campo Cargo deve ser numérico'),
   ], FuncionariosController.adicionar)
-  .get('/funcionarios/', FuncionariosController.exibirTodos)
+  .get('/funcionarios/', autenticacao, permissao(['admin']), FuncionariosController.exibirTodos)
   .get('/funcionarios/:id', FuncionariosController.exibirUm)
   .put('/funcionarios/:id', [
     body('nome').notEmpty().withMessage('Campo Nome é obrigatório'),
