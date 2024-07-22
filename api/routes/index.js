@@ -10,6 +10,7 @@ import pedidos from './PedidosRoutes.js';
 import itensPedidos from './ItensPedidosRoutes.js';
 import produtosFornecedores from './ProdutosFornecedoresRoutes.js';
 import registroCompraFornecedor from './RegistroCompraFornecedorRoutes.js';
+import erro404 from '../middlewares/erro404.js';
 
 function router(app) {
   app
@@ -35,6 +36,7 @@ function router(app) {
       itensPedidos,
       produtosFornecedores,
       registroCompraFornecedor,
+      erro404,
     );
 }
 
