@@ -3,11 +3,9 @@ import Pedidos from '../models/Pedidos.js';
 
 class PedidosController {
   static async adicionar(req, res) {
-    const {
-      dataPedido,
-      total,
-      idCliente,
-    } = req.body;
+    const dataPedido = req.body.dataPedido.toLowerCase().trim();
+    const total = req.body.total.toLowerCase().trim();
+    const idCliente = req.body.idCliente.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -86,12 +84,10 @@ class PedidosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const {
-      dataPedido,
-      total,
-      idCliente,
-      idStatus,
-    } = req.body;
+    const dataPedido = req.body.dataPedido.toLowerCase().trim();
+    const total = req.body.total.toLowerCase().trim();
+    const idCliente = req.body.idCliente.toLowerCase().trim();
+    const idStatus = req.body.idStatus.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

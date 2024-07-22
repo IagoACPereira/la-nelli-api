@@ -3,14 +3,12 @@ import Produtos from '../models/Produtos.js';
 
 class ProdutosController {
   static async adicionar(req, res) {
-    const {
-      nome,
-      descricao,
-      qtdEstoque,
-      precoVenda,
-      precoCompra,
-      idCategoria,
-    } = req.body;
+    const nome = req.body.nome.toLowerCase().trim();
+    const descricao = req.body.descricao.toLowerCase().trim();
+    const qtdEstoque = req.body.qtdEstoque.toLowerCase().trim();
+    const precoVenda = req.body.precoVenda.toLowerCase().trim();
+    const precoCompra = req.body.precoCompra.toLowerCase().trim();
+    const idCategoria = req.body.idCategoria.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -96,14 +94,12 @@ class ProdutosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const {
-      nome,
-      descricao,
-      qtdEstoque,
-      precoVenda,
-      precoCompra,
-      idCategoria,
-    } = req.body;
+    const nome = req.body.nome.toLowerCase().trim();
+    const descricao = req.body.descricao.toLowerCase().trim();
+    const qtdEstoque = req.body.qtdEstoque.toLowerCase().trim();
+    const precoVenda = req.body.precoVenda.toLowerCase().trim();
+    const precoCompra = req.body.precoCompra.toLowerCase().trim();
+    const idCategoria = req.body.idCategoria.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

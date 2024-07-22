@@ -3,7 +3,7 @@ import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class CategoriasProdutosController {
   static async adicionar(req, res) {
-    const { categoria } = req.body;
+    const categoria = req.body.categoria.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

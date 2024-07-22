@@ -3,10 +3,8 @@ import ProdutosFornecedores from '../models/ProdutosFornecedores.js';
 
 class ProdutosFornecedoresController {
   static async adicionar(req, res) {
-    const {
-      idFornecedor,
-      idProduto,
-    } = req.body;
+    const idFornecedor = req.body.idFornecedor.toLowerCase().trim();
+    const idProduto = req.body.idProduto.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -84,10 +82,8 @@ class ProdutosFornecedoresController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const {
-      idFornecedor,
-      idProduto,
-    } = req.body;
+    const idFornecedor = req.body.idFornecedor.toLowerCase().trim();
+    const idProduto = req.body.idProduto.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

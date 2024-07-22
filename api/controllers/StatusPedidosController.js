@@ -3,7 +3,7 @@ import StatusPedidos from '../models/StatusPedidos.js';
 
 class StatusPedidosController {
   static async adicionar(req, res) {
-    const { status } = req.body;
+    const status = req.body.status.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -74,7 +74,7 @@ class StatusPedidosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const { status } = req.body;
+    const status = req.body.status.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

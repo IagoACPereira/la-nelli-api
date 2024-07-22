@@ -3,11 +3,9 @@ import ItensPedidos from '../models/ItensPedidos.js';
 
 class ItensPedidosController {
   static async adicionar(req, res) {
-    const {
-      quantidade,
-      idPedido,
-      idProduto,
-    } = req.body;
+    const quantidade = req.body.quantidade.toLowerCase().trim();
+    const idPedido = req.body.idPedido.toLowerCase().trim();
+    const idProduto = req.body.idProduto.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -86,11 +84,9 @@ class ItensPedidosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const {
-      quantidade,
-      idPedido,
-      idProduto,
-    } = req.body;
+    const quantidade = req.body.quantidade.toLowerCase().trim();
+    const idPedido = req.body.idPedido.toLowerCase().trim();
+    const idProduto = req.body.idProduto.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

@@ -3,14 +3,12 @@ import Funcionarios from '../models/Funcionarios.js';
 
 class FuncionariosController {
   static async adicionar(req, res) {
-    const {
-      nome,
-      telefone,
-      email,
-      salario,
-      dataContratacao,
-      idCargo,
-    } = req.body;
+    const nome = req.body.nome.toLowerCase().trim();
+    const telefone = req.body.telefone.toLowerCase().trim();
+    const email = req.body.email.toLowerCase().trim();
+    const salario = req.body.salario.toLowerCase().trim();
+    const dataContratacao = req.body.dataContratacao.toLowerCase().trim();
+    const idCargo = req.body.idCargo.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -96,14 +94,12 @@ class FuncionariosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const {
-      nome,
-      telefone,
-      email,
-      salario,
-      dataContratacao,
-      idCargo,
-    } = req.body;
+    const nome = req.body.nome.toLowerCase().trim();
+    const telefone = req.body.telefone.toLowerCase().trim();
+    const email = req.body.email.toLowerCase().trim();
+    const salario = req.body.salario.toLowerCase().trim();
+    const dataContratacao = req.body.dataContratacao.toLowerCase().trim();
+    const idCargo = req.body.idCargo.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

@@ -3,7 +3,7 @@ import CargosFuncionarios from '../models/CargosFuncionarios.js';
 
 class CargosFuncionariosController {
   static async adicionar(req, res) {
-    const { cargo } = req.body;
+    const cargo = req.body.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -73,7 +73,7 @@ class CargosFuncionariosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const { cargo } = req.body;
+    const cargo = req.body.toLowerCase().trim();
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
