@@ -138,3 +138,5 @@ la_nelli_bkp.sql
 
 #requests
 requests_insomnia_la_nelli.json
+
+api/config/segredo.js
