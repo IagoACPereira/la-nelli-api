@@ -8,11 +8,13 @@ import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class RegistroCompraFornecedorController {
   static async adicionar(req, res) {
-    const quantidade = req.body.quantidade.toLowerCase().trim();
-    const custo = req.body.custo.toLowerCase().trim();
-    const idFuncionario = req.body.idFuncionario.toLowerCase().trim();
-    const idProduto = req.body.idProduto.toLowerCase().trim();
-    const idFornecedor = req.body.idFornecedor.toLowerCase().trim();
+    const {
+      quantidade,
+      custo,
+      idFuncionario,
+      idProduto,
+      idFornecedor,
+    } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -119,11 +121,13 @@ class RegistroCompraFornecedorController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const quantidade = req.body.quantidade.toLowerCase().trim();
-    const custo = req.body.custo.toLowerCase().trim();
-    const idFuncionario = req.body.idFuncionario.toLowerCase().trim();
-    const idProduto = req.body.idProduto.toLowerCase().trim();
-    const idFornecedor = req.body.idFornecedor.toLowerCase().trim();
+    const {
+      quantidade,
+      custo,
+      idFuncionario,
+      idProduto,
+      idFornecedor,
+    } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

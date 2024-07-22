@@ -4,7 +4,7 @@ import Pedidos from '../models/Pedidos.js';
 
 class StatusPedidosController {
   static async adicionar(req, res) {
-    const status = req.body.status.toLowerCase().trim();
+    const status = req.body.status ? req.body.status.toLowerCase().trim() : null;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -88,7 +88,7 @@ class StatusPedidosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const status = req.body.status.toLowerCase().trim();
+    const status = req.body.status ? req.body.status.toLowerCase().trim() : null;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

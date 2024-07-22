@@ -5,10 +5,10 @@ import StatusPedidos from '../models/StatusPedidos.js';
 
 class ClientesController {
   static async adicionar(req, res) {
-    const nome = req.body.nome.toLowerCase().trim();
-    const telefone = req.body.telefone.toLowerCase().trim();
-    const email = req.body.email.toLowerCase().trim();
-    const endereco = req.body.endereco.toLowerCase().trim();
+    const nome = req.body.nome ? req.body.nome.toLowerCase().trim() : null;
+    const email = req.body.email ? req.body.email.toLowerCase().trim() : null;
+    const endereco = req.body.endereco ? req.body.endereco.toLowerCase().trim() : null;
+    const { telefone } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -113,10 +113,10 @@ class ClientesController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const nome = req.body.nome.toLowerCase().trim();
-    const telefone = req.body.telefone.toLowerCase().trim();
-    const email = req.body.email.toLowerCase().trim();
-    const endereco = req.body.endereco.toLowerCase().trim();
+    const nome = req.body.nome ? req.body.nome.toLowerCase().trim() : null;
+    const email = req.body.email ? req.body.email.toLowerCase().trim() : null;
+    const endereco = req.body.endereco ? req.body.endereco.toLowerCase().trim() : null;
+    const { telefone } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

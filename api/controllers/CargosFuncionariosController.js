@@ -4,7 +4,7 @@ import Funcionarios from '../models/Funcionarios.js';
 
 class CargosFuncionariosController {
   static async adicionar(req, res) {
-    const cargo = req.body.toLowerCase().trim();
+    const cargo = req.body.cargo ? req.body.cargo.toLowerCase().trim() : null;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -87,7 +87,7 @@ class CargosFuncionariosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const cargo = req.body.toLowerCase().trim();
+    const cargo = req.body.cargo ? req.body.cargo.toLowerCase().trim() : null;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

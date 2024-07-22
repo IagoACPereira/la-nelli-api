@@ -4,7 +4,7 @@ import Produtos from '../models/Produtos.js';
 
 class CategoriasProdutosController {
   static async adicionar(req, res) {
-    const categoria = req.body.categoria.toLowerCase().trim();
+    const categoria = req.body.categoria ? req.body.categoria.toLowerCase().trim() : null;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -88,7 +88,7 @@ class CategoriasProdutosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const { categoria } = req.body;
+    const categoria = req.body.categoria ? req.body.categoria.toLowerCase().trim() : null;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

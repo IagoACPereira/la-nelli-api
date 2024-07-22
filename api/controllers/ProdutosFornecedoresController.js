@@ -6,8 +6,10 @@ import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class ProdutosFornecedoresController {
   static async adicionar(req, res) {
-    const idFornecedor = req.body.idFornecedor.toLowerCase().trim();
-    const idProduto = req.body.idProduto.toLowerCase().trim();
+    const {
+      idFornecedor,
+      idProduto,
+    } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -116,8 +118,10 @@ class ProdutosFornecedoresController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const idFornecedor = req.body.idFornecedor.toLowerCase().trim();
-    const idProduto = req.body.idProduto.toLowerCase().trim();
+    const {
+      idFornecedor,
+      idProduto,
+    } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {

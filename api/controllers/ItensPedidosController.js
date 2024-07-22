@@ -6,9 +6,11 @@ import CategoriasProdutos from '../models/CategoriasProdutos.js';
 
 class ItensPedidosController {
   static async adicionar(req, res) {
-    const quantidade = req.body.quantidade.toLowerCase().trim();
-    const idPedido = req.body.idPedido.toLowerCase().trim();
-    const idProduto = req.body.idProduto.toLowerCase().trim();
+    const {
+      quantidade,
+      idPedido,
+      idProduto,
+    } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
@@ -120,9 +122,11 @@ class ItensPedidosController {
 
   static async atualizar(req, res) {
     const { id } = req.params;
-    const quantidade = req.body.quantidade.toLowerCase().trim();
-    const idPedido = req.body.idPedido.toLowerCase().trim();
-    const idProduto = req.body.idProduto.toLowerCase().trim();
+    const {
+      quantidade,
+      idPedido,
+      idProduto,
+    } = req.body;
     const validacao = validationResult(req);
     try {
       if (!validacao.isEmpty()) {
