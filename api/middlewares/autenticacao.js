@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-import segredo from '../config/segredo.js';
 
 function autenticacao(req, res, next) {
   const token = req.headers.authorization;
   try {
-    jwt.verify(token, segredo);
+    jwt.verify(token, process.env.SEGREDO);
 
     next();
   } catch (error) {

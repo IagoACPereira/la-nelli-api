@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Funcionarios from '../models/Funcionarios.js';
 import Permissoes from '../models/Permissoes.js';
-import segredo from '../config/segredo.js';
 
 class AuthController {
   static async auth(req, res) {
@@ -42,7 +41,7 @@ class AuthController {
         permissao: funcionario.permisso.titulo,
       };
 
-      const token = jwt.sign(payload, segredo, {
+      const token = jwt.sign(payload, process.env.SEGREDO, {
         expiresIn: 60 * 60 * 12, // 12 Horas
       });
 
