@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import statusPedidos from './StatusPedidosRoutes.js';
 import clientes from './ClientesRoutes.js';
 import cargosFuncionarios from './CargosFuncionariosRoutes.js';
@@ -13,6 +14,7 @@ import registroCompraFornecedor from './RegistroCompraFornecedorRoutes.js';
 import erro404 from '../middlewares/erro404.js';
 import permissoes from './PermissoesRoutes.js';
 import auth from './AuthRoutes.js';
+import autenticacao from '../middlewares/autenticacao.js';
 
 function router(app) {
   app
@@ -21,8 +23,9 @@ function router(app) {
       express.urlencoded({
         extended: true,
       }),
+      cors(),
     )
-    .get('/api/', (_, res) => {
+    .get('/api/', autenticacao, (_, res) => {
       res.json('La Nelli API');
     })
     .use(

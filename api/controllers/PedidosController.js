@@ -35,7 +35,7 @@ class PedidosController {
         data_pedido: dataPedido,
         total,
         id_cliente: idCliente,
-        id_status: 5,
+        id_status: 1,
       });
       res.status(201).json({
         mensagem: 'Novo pedido adicionado com sucesso',

@@ -9,7 +9,7 @@ const Pedidos = sequelize.define('pedidos_vendas', {
     allowNull: false,
   },
   total: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.DOUBLE,
     allowNull: false,
   },
 }, {
