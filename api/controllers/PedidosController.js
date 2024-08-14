@@ -11,7 +11,6 @@ class PedidosController {
     const {
       dataPedido,
       horaPedido,
-      total,
       idCliente,
     } = req.body;
     const validacao = validationResult(req);
@@ -24,7 +23,6 @@ class PedidosController {
         where: {
           data_pedido: dataPedido,
           hora_pedido: horaPedido,
-          total,
           id_cliente: idCliente,
         },
       });
@@ -35,7 +33,7 @@ class PedidosController {
 
       const novoPedido = await Pedidos.create({
         data_pedido: dataPedido,
-        total,
+        total: '0',
         id_cliente: idCliente,
         id_status: 1,
       });
@@ -145,7 +143,6 @@ class PedidosController {
     const {
       dataPedido,
       horaPedido,
-      total,
       idCliente,
       idStatus,
     } = req.body;
@@ -166,7 +163,6 @@ class PedidosController {
       await Pedidos.update({
         data_pedido: dataPedido,
         hora_pedido: horaPedido,
-        total,
         id_cliente: idCliente,
         id_status: idStatus,
       }, {

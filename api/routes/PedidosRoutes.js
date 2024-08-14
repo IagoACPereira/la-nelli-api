@@ -12,8 +12,6 @@ clientesRouter
     body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaaa-mm-dd'),
     body('horaPedido').notEmpty().withMessage('Campo Horário do pedido é obrigatório'),
     body('horaPedido').isTime().withMessage('Campo Horário do pedido deve ser um horário válido: hh:mm'),
-    body('total').notEmpty().withMessage('Campo Total é obrigatório'),
-    body('total').isNumeric().withMessage('Campo Total deve ser numérico'),
     body('idCliente').notEmpty().withMessage('Campo Cliente é obrigatório'),
     body('idCliente').isNumeric().withMessage('Campo Cliente deve ser numérico'),
   ], PedidosController.adicionar)
@@ -24,8 +22,6 @@ clientesRouter
     body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaaa-mm-dd'),
     body('horaPedido').notEmpty().withMessage('Campo Horário do pedido é obrigatório'),
     body('horaPedido').isTime().withMessage('Campo Horário do pedido deve ser um horário válido: hh:mm'),
-    body('total').notEmpty().withMessage('Campo Total é obrigatório'),
-    body('total').isNumeric().withMessage('Campo Total deve ser numérico'),
     body('idCliente').notEmpty().withMessage('Campo Cliente é obrigatório'),
     body('idCliente').isNumeric().withMessage('Campo Cliente deve ser numérico'),
   ], PedidosController.atualizar)

@@ -15,6 +15,4 @@ const Permissoes = sequelize.define('permissoes', {
   freezeTableName: true,
 });
 
-// Permissoes.sync({ force: true });
-
 export default Permissoes;
