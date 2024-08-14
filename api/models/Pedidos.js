@@ -8,9 +8,15 @@ const Pedidos = sequelize.define('pedidos_vendas', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
+  hora_pedido: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '00:00',
+  },
   total: {
     type: DataTypes.DOUBLE,
     allowNull: false,
+    defaultValue: 0,
   },
 }, {
   timestamps: false,

@@ -10,6 +10,7 @@ class PedidosController {
   static async adicionar(req, res) {
     const {
       dataPedido,
+      horaPedido,
       total,
       idCliente,
     } = req.body;
@@ -22,6 +23,7 @@ class PedidosController {
       const buscarRegistro = await Pedidos.findOne({
         where: {
           data_pedido: dataPedido,
+          hora_pedido: horaPedido,
           total,
           id_cliente: idCliente,
         },
@@ -142,6 +144,7 @@ class PedidosController {
     const { id } = req.params;
     const {
       dataPedido,
+      horaPedido,
       total,
       idCliente,
       idStatus,
@@ -162,6 +165,7 @@ class PedidosController {
 
       await Pedidos.update({
         data_pedido: dataPedido,
+        hora_pedido: horaPedido,
         total,
         id_cliente: idCliente,
         id_status: idStatus,

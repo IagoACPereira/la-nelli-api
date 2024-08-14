@@ -9,7 +9,9 @@ const clientesRouter = Router();
 clientesRouter
   .post('/pedidos/', autenticacao, permissao(['admin']), [
     body('dataPedido').notEmpty().withMessage('Campo Data do Pedido é obrigatório'),
-    body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaa-mm-dd'),
+    body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaaa-mm-dd'),
+    body('horaPedido').notEmpty().withMessage('Campo Horário do pedido é obrigatório'),
+    body('horaPedido').isTime().withMessage('Campo Horário do pedido deve ser um horário válido: hh:mm'),
     body('total').notEmpty().withMessage('Campo Total é obrigatório'),
     body('total').isNumeric().withMessage('Campo Total deve ser numérico'),
     body('idCliente').notEmpty().withMessage('Campo Cliente é obrigatório'),
@@ -19,7 +21,9 @@ clientesRouter
   .get('/pedidos/:id', autenticacao, permissao(['admin', 'leitura', 'manipulacao']), PedidosController.exibirUm)
   .put('/pedidos/:id', autenticacao, permissao(['admin', 'manipulacao']), [
     body('dataPedido').notEmpty().withMessage('Campo Data do Pedido é obrigatório'),
-    body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaa-mm-dd'),
+    body('dataPedido').isDate().withMessage('Campo Data do Pedido deve ser uma data válida: aaaa-mm-dd'),
+    body('horaPedido').notEmpty().withMessage('Campo Horário do pedido é obrigatório'),
+    body('horaPedido').isTime().withMessage('Campo Horário do pedido deve ser um horário válido: hh:mm'),
     body('total').notEmpty().withMessage('Campo Total é obrigatório'),
     body('total').isNumeric().withMessage('Campo Total deve ser numérico'),
     body('idCliente').notEmpty().withMessage('Campo Cliente é obrigatório'),
