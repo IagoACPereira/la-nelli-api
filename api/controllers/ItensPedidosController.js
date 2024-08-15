@@ -42,7 +42,6 @@ class ItensPedidosController {
           id: idProduto,
         },
       });
-
       // Fim --> Decrementar do estoque quando inserir item do pedido
 
       const novoItem = await ItensPedidos.create({
@@ -50,6 +49,21 @@ class ItensPedidosController {
         id_pedido: idPedido,
         id_produto: idProduto,
       });
+      // Incrementar valor do item ao total do pedido
+      const pedido = await Pedidos.findOne({
+        where: {
+          id: novoItem.id_pedido,
+        },
+      });
+
+      await Pedidos.update({
+        total: pedido.total + (produto.preco_venda * novoItem.quantidade),
+      }, {
+        where: {
+          id: novoItem.id_pedido,
+        },
+      });
+      // Fim --> Incrementar valor do item ao total do pedido
 
       res.status(201).json({
         mensagem: 'Novo item adicionado com sucesso',
@@ -220,8 +234,23 @@ class ItensPedidosController {
           id: itemPedido.id_produto,
         },
       });
-
       // Fim --> Decrementar do estoque quando inserir item do pedido
+
+      // Decrementar valor do pedido
+      const pedido = await Pedidos.findOne({
+        where: {
+          id: itemPedido.id_pedido,
+        },
+      });
+
+      await Pedidos.update({
+        total: pedido.total - (itemPedido.quantidade * produto.preco_venda),
+      }, {
+        where: {
+          id: itemPedido.id_pedido,
+        },
+      });
+      // Fim --> Decrementar valor do pedido
 
       await ItensPedidos.destroy({
         where: { id },
