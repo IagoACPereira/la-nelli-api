@@ -25,6 +25,8 @@ clientesRouter
     body('idCliente').notEmpty().withMessage('Campo Cliente é obrigatório'),
     body('idCliente').isNumeric().withMessage('Campo Cliente deve ser numérico'),
   ], PedidosController.atualizar)
+  .put('/pedidos/finalizar/:id', autenticacao, permissao(['admin', 'manipulacao']), PedidosController.finalizarPedido)
+  .put('/pedidos/cancelar/:id', autenticacao, permissao(['admin', 'manipulacao']), PedidosController.cancelarPedido)
   .delete('/pedidos/:id', autenticacao, permissao(['admin']), PedidosController.deletar);
 
 export default clientesRouter;

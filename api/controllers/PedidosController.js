@@ -213,6 +213,46 @@ class PedidosController {
       });
     }
   }
+
+  static async finalizarPedido(req, res) {
+    const { id } = req.params;
+    try {
+      await Pedidos.update({
+        id_status: 2,
+      }, {
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Pedido finalizado com sucesso',
+      });
+    } catch (error) {
+      res.status(400).json({
+        mensagem: error.message,
+        status: 400,
+      });
+    }
+  }
+
+  static async cancelarPedido(req, res) {
+    const { id } = req.params;
+    try {
+      await Pedidos.update({
+        id_status: 3,
+      }, {
+        where: { id },
+      });
+
+      res.status(200).json({
+        mensagem: 'Pedido cancelado com sucesso',
+      });
+    } catch (error) {
+      res.status(400).json({
+        mensagem: error.message,
+        status: 400,
+      });
+    }
+  }
 }
 
 export default PedidosController;

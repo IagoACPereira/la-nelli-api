@@ -19,7 +19,6 @@ class ItensPedidosController {
 
       const buscarRegistro = await ItensPedidos.findOne({
         where: {
-          quantidade,
           id_pedido: idPedido,
           id_produto: idProduto,
         },
@@ -34,29 +33,6 @@ class ItensPedidosController {
         id_pedido: idPedido,
         id_produto: idProduto,
       });
-
-      // Incrementar valor do item ao total do pedido
-      const produto = await Produtos.findOne({
-        where: {
-          id: novoItem.id_produto,
-        },
-      });
-
-      const pedido = await Pedidos.findOne({
-        where: {
-          id: novoItem.id_pedido,
-        },
-      });
-
-      await Pedidos.update({
-        total: (produto.preco_venda * novoItem.quantidade) + pedido.total,
-      }, {
-        where: {
-          id: novoItem.id_pedido,
-        },
-      });
-
-      // Fim --> Incrementar valor do item ao total do pedido
 
       res.status(201).json({
         mensagem: 'Novo item adicionado com sucesso',
@@ -165,6 +141,17 @@ class ItensPedidosController {
         throw new Error(`Não existem registros com o id ${id}`);
       }
 
+      const buscarRegistro = await ItensPedidos.findOne({
+        where: {
+          id_pedido: idPedido,
+          id_produto: idProduto,
+        },
+      });
+
+      if (buscarRegistro) {
+        throw new Error('Já existe um registro com esses mesmos dados');
+      }
+
       await ItensPedidos.update({
         quantidade,
         id_pedido: idPedido,
@@ -201,29 +188,6 @@ class ItensPedidosController {
       if (!itemPedido) {
         throw new Error(`Não existem registros com o id ${id}`);
       }
-
-      // Decrementar valor do pedido
-      const produto = await Produtos.findOne({
-        where: {
-          id: itemPedido.id_produto,
-        },
-      });
-
-      const pedido = await Pedidos.findOne({
-        where: {
-          id: itemPedido.id_pedido,
-        },
-      });
-
-      await Pedidos.update({
-        total: (itemPedido.quantidade * produto.preco_venda) - pedido.total,
-      }, {
-        where: {
-          id: itemPedido.id_pedido,
-        },
-      });
-
-      // Fim --> Decrementar valor do pedido
 
       await ItensPedidos.destroy({
         where: { id },

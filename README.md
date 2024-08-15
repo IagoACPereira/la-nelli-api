@@ -15,4 +15,6 @@ SENHADB='[Senha do Banco]'
 HOSTDB='[Host do Banco]'
 
 SEGREDO='[Segredo]'
+
+TOKENMESTRE='[Token sem o expiresIn]'
 ```
