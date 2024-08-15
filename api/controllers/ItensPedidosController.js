@@ -28,6 +28,23 @@ class ItensPedidosController {
         throw new Error('Já existe um registro com esses mesmos dados');
       }
 
+      // Decrementar do estoque quando inserir item do pedido
+      const produto = await Produtos.findOne({
+        where: {
+          id: idProduto,
+        },
+      });
+
+      await Produtos.update({
+        qtd_estoque: produto.qtd_estoque - quantidade,
+      }, {
+        where: {
+          id: idProduto,
+        },
+      });
+
+      // Fim --> Decrementar do estoque quando inserir item do pedido
+
       const novoItem = await ItensPedidos.create({
         quantidade,
         id_pedido: idPedido,
@@ -188,6 +205,23 @@ class ItensPedidosController {
       if (!itemPedido) {
         throw new Error(`Não existem registros com o id ${id}`);
       }
+
+      // Decrementar do estoque quando inserir item do pedido
+      const produto = await Produtos.findOne({
+        where: {
+          id: itemPedido.id_produto,
+        },
+      });
+
+      await Produtos.update({
+        qtd_estoque: produto.qtd_estoque + itemPedido.quantidade,
+      }, {
+        where: {
+          id: itemPedido.id_produto,
+        },
+      });
+
+      // Fim --> Decrementar do estoque quando inserir item do pedido
 
       await ItensPedidos.destroy({
         where: { id },
