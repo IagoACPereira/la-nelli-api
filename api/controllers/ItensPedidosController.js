@@ -155,8 +155,6 @@ class ItensPedidosController {
     const { id } = req.params;
     const {
       quantidade,
-      idPedido,
-      idProduto,
     } = req.body;
     const validacao = validationResult(req);
     try {
@@ -172,21 +170,72 @@ class ItensPedidosController {
         throw new Error(`Não existem registros com o id ${id}`);
       }
 
-      const buscarRegistro = await ItensPedidos.findOne({
+      // Decrementar todo o valor do total do pedido
+      const produto = await Produtos.findOne({
         where: {
-          id_pedido: idPedido,
-          id_produto: idProduto,
+          id: itemPedido.id_produto,
         },
       });
 
-      if (buscarRegistro) {
-        throw new Error('Já existe um registro com esses mesmos dados');
-      }
+      const pedido = await Pedidos.findOne({
+        where: {
+          id: itemPedido.id_pedido,
+        },
+      });
+
+      await Pedidos.update({
+        total: pedido.total - (itemPedido.quantidade * produto.preco_venda),
+      }, {
+        where: {
+          id: itemPedido.id_pedido,
+        },
+      });
+      // Fim --> Decrementar todo o valor do total do pedido
+
+      // Incrementar no total do pedido o valor atualizado
+      const pedidoAtualizado = await Pedidos.findOne({
+        where: {
+          id: itemPedido.id_pedido,
+        },
+      });
+
+      await Pedidos.update({
+        total: pedidoAtualizado.total + (quantidade * produto.preco_venda),
+      }, {
+        where: {
+          id: itemPedido.id_pedido,
+        },
+      });
+      // Fim --> Incrementar no total do pedido o valor atualizado
+
+      // // Incrementar no estoque toda a quantidade do produto
+      await Produtos.update({
+        qtd_estoque: produto.qtd_estoque + itemPedido.quantidade,
+      }, {
+        where: {
+          id: itemPedido.id_produto,
+        },
+      });
+      // Fim --> Incrementar no estoque toda a quantidade do produto
+
+      // Decrementar do estoque com a quantidade atualizada
+      const produtoAtualizado = await Produtos.findOne({
+        where: {
+          id: itemPedido.id_produto,
+        },
+      });
+
+      await Produtos.update({
+        qtd_estoque: produtoAtualizado.qtd_estoque - quantidade,
+      }, {
+        where: {
+          id: itemPedido.id_produto,
+        },
+      });
+      // Fim --> Decrementar do estoque com a quantidade atualizada
 
       await ItensPedidos.update({
         quantidade,
-        id_pedido: idPedido,
-        id_produto: idProduto,
       }, {
         where: { id },
       });
