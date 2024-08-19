@@ -21,20 +21,6 @@ class RegistroCompraFornecedorController {
         throw new Error('Erro de validação');
       }
 
-      const buscarRegistro = await RegistroCompraFornecedor.findOne({
-        where: {
-          quantidade,
-          custo,
-          id_funcionario: idFuncionario,
-          id_produto: idProduto,
-          id_fornecedor: idFornecedor,
-        },
-      });
-
-      if (buscarRegistro) {
-        throw new Error('Já existe um registro com esses mesmos dados');
-      }
-
       const novaCompra = await RegistroCompraFornecedor.create({
         quantidade,
         custo,
@@ -42,6 +28,25 @@ class RegistroCompraFornecedorController {
         id_produto: idProduto,
         id_fornecedor: idFornecedor,
       });
+
+      // Incrementar no estoque quando houver compra com o fornecedor
+      const produto = await Produtos.findOne({
+        where: {
+          id: idProduto,
+        },
+      });
+
+      console.log(produto.dataValues);
+      console.log(quantidade);
+
+      await Produtos.update({
+        qtd_estoque: produto.qtd_estoque + quantidade,
+      }, {
+        where: {
+          id: idProduto,
+        },
+      });
+      // Fim --> Incrementar no estoque quando houver compra com o fornecedor
 
       res.status(201).json({
         mensagem: 'Nova compra com fornecedor registrada com sucesso',
