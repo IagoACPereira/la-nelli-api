@@ -3,6 +3,7 @@ import ItensPedidos from '../models/ItensPedidos.js';
 import Pedidos from '../models/Pedidos.js';
 import Produtos from '../models/Produtos.js';
 import CategoriasProdutos from '../models/CategoriasProdutos.js';
+import paginar from '../modules/paginar.js';
 
 class ItensPedidosController {
   static async adicionar(req, res) {
@@ -86,25 +87,31 @@ class ItensPedidosController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const itensPedidos = await ItensPedidos.findAll({
-        attributes: ['id', 'quantidade'],
-        include: [
-          {
-            model: Pedidos,
-            attributes: ['id', 'data_pedido', 'total'],
-          },
-          {
-            model: Produtos,
-            attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'qtd_estoque', 'preco_venda', 'preco_compra'],
-            include: [
-              {
-                model: CategoriasProdutos,
-              },
-            ],
-          },
-        ],
-      });
+      const itensPedidos = paginar(
+        await ItensPedidos.findAll({
+          attributes: ['id', 'quantidade'],
+          include: [
+            {
+              model: Pedidos,
+              attributes: ['id', 'data_pedido', 'total'],
+            },
+            {
+              model: Produtos,
+              attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+              include: [
+                {
+                  model: CategoriasProdutos,
+                },
+              ],
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
 
       res.status(200).json(itensPedidos);
     } catch (error) {

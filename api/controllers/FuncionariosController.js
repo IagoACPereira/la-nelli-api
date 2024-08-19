@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import Funcionarios from '../models/Funcionarios.js';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
 import Permissoes from '../models/Permissoes.js';
+import paginar from '../modules/paginar.js';
 
 class FuncionariosController {
   static async adicionar(req, res) {
@@ -77,19 +78,25 @@ class FuncionariosController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const funcionarios = await Funcionarios.findAll({
-        attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
-        include: [
-          {
-            model: CargosFuncionarios,
-          },
-          {
-            model: Permissoes,
-            attributes: ['id', 'titulo'],
-          },
-        ],
-      });
+      const funcionarios = paginar(
+        await Funcionarios.findAll({
+          attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+          include: [
+            {
+              model: CargosFuncionarios,
+            },
+            {
+              model: Permissoes,
+              attributes: ['id', 'titulo'],
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
 
       res.status(200).json(funcionarios);
     } catch (error) {

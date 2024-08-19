@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
 import Funcionarios from '../models/Funcionarios.js';
+import paginar from '../modules/paginar.js';
 
 class CargosFuncionariosController {
   static async adicionar(req, res) {
@@ -41,15 +42,22 @@ class CargosFuncionariosController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const cargosFuncionarios = await CargosFuncionarios.findAll({
-        include: [
-          {
-            model: Funcionarios,
-            attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
-          },
-        ],
-      });
+      const cargosFuncionarios = paginar(
+        await CargosFuncionarios.findAll({
+          include: [
+            {
+              model: Funcionarios,
+              attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
+
       res.status(200).json(cargosFuncionarios);
     } catch (error) {
       res.status(400).json({

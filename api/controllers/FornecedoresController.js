@@ -6,6 +6,7 @@ import CategoriasProdutos from '../models/CategoriasProdutos.js';
 import RegistroCompraFornecedor from '../models/RegistroCompraFornecedor.js';
 import Funcionarios from '../models/Funcionarios.js';
 import CargosFuncionarios from '../models/CargosFuncionarios.js';
+import paginar from '../modules/paginar.js';
 
 class FornecedoresController {
   static async adicionar(req, res) {
@@ -59,50 +60,56 @@ class FornecedoresController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const fornecedores = await Fornecedores.findAll({
-        include: [
-          {
-            model: ProdutosFornecedores,
-            attributes: ['id'],
-            include: [
-              {
-                model: Produtos,
-                attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
-                include: [
-                  {
-                    model: CategoriasProdutos,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            model: RegistroCompraFornecedor,
-            attributes: ['id', 'quantidade', 'custo'],
-            include: [
-              {
-                model: Funcionarios,
-                attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
-                include: [
-                  {
-                    model: CargosFuncionarios,
-                  },
-                ],
-              },
-              {
-                model: Produtos,
-                attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
-                include: [
-                  {
-                    model: CategoriasProdutos,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      });
+      const fornecedores = paginar(
+        await Fornecedores.findAll({
+          include: [
+            {
+              model: ProdutosFornecedores,
+              attributes: ['id'],
+              include: [
+                {
+                  model: Produtos,
+                  attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
+                  include: [
+                    {
+                      model: CategoriasProdutos,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              model: RegistroCompraFornecedor,
+              attributes: ['id', 'quantidade', 'custo'],
+              include: [
+                {
+                  model: Funcionarios,
+                  attributes: ['id', 'nome', 'telefone', 'email', 'salario', 'data_contratacao'],
+                  include: [
+                    {
+                      model: CargosFuncionarios,
+                    },
+                  ],
+                },
+                {
+                  model: Produtos,
+                  attributes: ['id', 'nome', 'qtd_estoque', 'preco_compra'],
+                  include: [
+                    {
+                      model: CategoriasProdutos,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
 
       res.status(200).json(fornecedores);
     } catch (error) {

@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import StatusPedidos from '../models/StatusPedidos.js';
 import Pedidos from '../models/Pedidos.js';
+import paginar from '../modules/paginar.js';
 
 class StatusPedidosController {
   static async adicionar(req, res) {
@@ -41,15 +42,21 @@ class StatusPedidosController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const statusPedidos = await StatusPedidos.findAll({
-        include: [
-          {
-            model: Pedidos,
-            attributes: ['id', 'data_pedido', 'total'],
-          },
-        ],
-      });
+      const statusPedidos = paginar(
+        await StatusPedidos.findAll({
+          include: [
+            {
+              model: Pedidos,
+              attributes: ['id', 'data_pedido', 'total'],
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
 
       res.status(200).json(statusPedidos);
     } catch (error) {

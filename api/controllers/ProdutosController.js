@@ -1,6 +1,7 @@
 import { validationResult } from 'express-validator';
 import Produtos from '../models/Produtos.js';
 import CategoriasProdutos from '../models/CategoriasProdutos.js';
+import paginar from '../modules/paginar.js';
 
 class ProdutosController {
   static async adicionar(req, res) {
@@ -63,15 +64,21 @@ class ProdutosController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const produtos = await Produtos.findAll({
-        attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_venda', 'preco_compra'],
-        include: [
-          {
-            model: CategoriasProdutos,
-          },
-        ],
-      });
+      const produtos = paginar(
+        await Produtos.findAll({
+          attributes: ['id', 'nome', 'descricao', 'qtd_estoque', 'preco_venda', 'preco_compra'],
+          include: [
+            {
+              model: CategoriasProdutos,
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
 
       res.status(200).json(produtos);
     } catch (error) {

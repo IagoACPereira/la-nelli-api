@@ -5,6 +5,7 @@ import StatusPedidos from '../models/StatusPedidos.js';
 import ItensPedidos from '../models/ItensPedidos.js';
 import Produtos from '../models/Produtos.js';
 import CategoriasProdutos from '../models/CategoriasProdutos.js';
+import paginar from '../modules/paginar.js';
 
 class PedidosController {
   static async adicionar(req, res) {
@@ -58,33 +59,40 @@ class PedidosController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const pedidos = await Pedidos.findAll({
-        attributes: ['id', 'data_pedido', 'total'],
-        include: [
-          {
-            model: Clientes,
-          },
-          {
-            model: StatusPedidos,
-          },
-          {
-            model: ItensPedidos,
-            attributes: ['id', 'quantidade'],
-            include: [
-              {
-                model: Produtos,
-                attributes: ['id', 'nome', 'descricao', 'preco_venda'],
-                include: [
-                  {
-                    model: CategoriasProdutos,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      });
+      const pedidos = paginar(
+        await Pedidos.findAll({
+          attributes: ['id', 'data_pedido', 'total'],
+          include: [
+            {
+              model: Clientes,
+            },
+            {
+              model: StatusPedidos,
+            },
+            {
+              model: ItensPedidos,
+              attributes: ['id', 'quantidade'],
+              include: [
+                {
+                  model: Produtos,
+                  attributes: ['id', 'nome', 'descricao', 'preco_venda'],
+                  include: [
+                    {
+                      model: CategoriasProdutos,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+        pagina,
+        limite,
+      );
+
       res.status(200).json(pedidos);
     } catch (error) {
       res.status(400).json({

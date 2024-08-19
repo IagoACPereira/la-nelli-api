@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator';
 import Permissoes from '../models/Permissoes.js';
+import paginar from '../modules/paginar.js';
 
 class PermissoesController {
   static async adicionar(req, res) {
@@ -47,8 +48,14 @@ class PermissoesController {
   }
 
   static async exibirTodos(req, res) {
+    const pagina = req.query.pagina || 1;
+    const limite = req.query.limite || 10;
     try {
-      const permissoes = await Permissoes.findAll();
+      const permissoes = paginar(
+        await Permissoes.findAll(),
+        pagina,
+        limite,
+      );
 
       res.status(200).json(permissoes);
     } catch (error) {
